@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Governance Framework for High-Risk Clinical Decision Support System</title>
+<style>
+/* Global Reset & Base */
+*, *::before, *::after { box-sizing: border-box; }
+html { background-color: #f1f5f9; scroll-behavior: smooth; }
+body { 
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif; 
+  line-height: 1.75; 
+  max-width: 960px; 
+  margin: 40px auto; 
+  padding: 60px 75px; 
+  color: #334155; 
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+  border-top: 6px solid #1e3a8a;
+}
+
+/* Typography */
+h1, h2, h3, h4 { color: #0f172a; font-weight: 700; line-height: 1.3; }
+h1 { 
+  margin-top: 2.2em; 
+  margin-bottom: 0.9em;
+  padding: 14px 20px;
+  border-top: 3px solid #1e3a8a; 
+  border-bottom: 3px solid #1e3a8a; 
+  background: linear-gradient(90deg, #f8fafc 0%, #ffffff 100%);
+  text-transform: uppercase; 
+  letter-spacing: 0.04em;
+  font-size: 1.55em;
+  border-radius: 4px;
+}
+h2 {
+  border-left: 4px solid #0284c7;
+  padding-left: 14px;
+  margin-top: 2em;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 8px;
+  font-size: 1.3em;
+}
+h3 { margin-top: 1.5em; color: #0369a1; font-size: 1.15em; }
+h4 { margin-top: 1.2em; color: #334155; }
+p { margin: 1em 0; }
+strong { color: #0f172a; font-weight: 700; }
+a { color: #2563eb; text-decoration: none; font-weight: 500; }
+a:hover { color: #1d4ed8; text-decoration: underline; }
+
+/* Tables */
+table { 
+  border-collapse: collapse; 
+  width: 100%; 
+  margin: 25px 0 35px 0; 
+  font-size: 0.94em; 
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+}
+th, td { border: 1px solid #cbd5e1; padding: 12px 16px; text-align: left; vertical-align: top; }
+th { 
+  background-color: #1e293b; 
+  font-weight: 600; 
+  color: #ffffff; 
+  text-transform: uppercase; 
+  font-size: 0.82em; 
+  letter-spacing: 0.05em; 
+}
+tr:nth-child(even) { background-color: #f8fafc; }
+tr:hover { background-color: #f1f5f9; }
+
+/* Callouts / Blockquotes */
+blockquote { 
+  border-left: 4px solid #0284c7; 
+  margin: 25px 0; 
+  padding: 16px 22px; 
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  font-style: italic; 
+  color: #0369a1;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Alert Boxes */
+.alert-box {
+  margin: 25px 0;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border-left: 5px solid #0284c7;
+  background-color: #f8fafc;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+.alert-header {
+  font-weight: 700;
+  font-size: 0.95em;
+  margin-bottom: 6px;
+}
+.alert-body {
+  font-size: 0.95em;
+  color: #334155;
+}
+.alert-important { border-left-color: #7c3aed; background-color: #faf5ff; }
+.alert-important .alert-header { color: #6d28d9; }
+.alert-warning { border-left-color: #d97706; background-color: #fffbeb; }
+.alert-warning .alert-header { color: #b45309; }
+.alert-caution { border-left-color: #dc2626; background-color: #fef2f2; }
+.alert-caution .alert-header { color: #b91c1c; }
+.alert-note { border-left-color: #0284c7; background-color: #f0f9ff; }
+.alert-note .alert-header { color: #0369a1; }
+.alert-tip { border-left-color: #059669; background-color: #ecfdf5; }
+.alert-tip .alert-header { color: #047857; }
+
+/* Code & Fences */
+code { 
+  background: #f1f5f9; 
+  padding: 3px 6px; 
+  border-radius: 4px; 
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; 
+  font-size: 0.88em; 
+  color: #be185d; 
+  border: 1px solid #e2e8f0;
+}
+pre {
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 16px 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+pre code {
+  background: transparent;
+  color: inherit;
+  border: none;
+  padding: 0;
+}
+
+/* Mermaid Container */
+.mermaid-container {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  text-align: center;
+  overflow-x: auto;
+}
+.mermaid { display: flex; justify-content: center; }
+
+/* Lists & Horizontal Rules */
+ul, ol { padding-left: 24px; margin: 1em 0; }
+li { margin-bottom: 0.4em; }
+hr { border: none; border-top: 1px solid #e2e8f0; margin: 40px 0; }
+
+/* Print Optimization */
+@media print {
+  body { background-color: #ffffff; box-shadow: none; margin: 0; padding: 0; max-width: 100%; border: none; }
+  h1 { page-break-before: always; }
+  h1:first-of-type { page-break-before: avoid; }
+  table, .alert-box, .mermaid-container { page-break-inside: avoid; }
+}
+</style>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+</script>
+</head>
+<body>
+<h1>AI Governance Framework for a High-Risk Clinical Decision Support System</h1>
+<h3>A Portfolio Project in AI Governance, Risk, and Compliance (GRC)</h3>
+<p><strong>Author:</strong> Vasu Sharma<br />
+<strong>Domain:</strong> HealthTech AI Governance<br />
+<strong>Regulatory Scope:</strong> EU AI Act (2024/1689) · EU MDR (2017/745) · GDPR (2016/679)<br />
+<strong>Date:</strong> August 2026<br />
+<strong>Version:</strong> 3.0 (Self-Assessed / Portfolio Exercise)  </p>
+<hr />
+<blockquote>
+<p><strong>About This Document</strong><br />
+This framework demonstrates the operational translation of the EU AI Act, GDPR, and EU Medical Device Regulation into a single compliance architecture for a high-risk clinical triage AI. It is built from primary regulatory texts and supported by published industry intelligence from OECD, McKinsey &amp; Company, and Deloitte.</p>
+</blockquote>
+<h1>Executive Summary</h1>
+<p><em>(Updated with Industry &amp; Regulatory Citations — OECD, EU AI Act, GDPR, MDR)</em></p>
+<hr />
+<p><strong>System:</strong> AI-based Clinical Triage Decision Support System (AI-CTDSS)
+<strong>Regulatory Environment:</strong> EU Medical Device Regulation (MDR 2017/745) · EU Artificial Intelligence Act (2024/1689) · General Data Protection Regulation (GDPR 2016/679)</p>
+<p>This document serves as the comprehensive governance framework for the deployment of an AI-CTDSS within a European emergency department setting. The system analyzes patient intake data (vitals and symptoms) to recommend a triage priority score to the attending triage nurse. It is unambiguously classified as a <strong>Class IIa Medical Device</strong> under MDR Annex VIII Rule 11, and a <strong>High-Risk AI System</strong> under Article 6(1) and 6(2) of the EU AI Act — the first comprehensive AI regulation enacted globally, entering full enforcement for Annex I medical devices in August 2028 (per Digital Omnibus Reg. 2026/1744).</p>
+<p>The OECD (<em>Progress in Implementing the EU Coordinated Plan on AI, Volume 2: Uptake in High-Impact Sectors</em>, 2026) explicitly identifies navigating the overlapping requirements of the EU AI Act, GDPR, and Medical Device Regulation as one of the primary structural barriers to AI adoption in European healthcare — recommending that developers and deployers pursue <em>"consolidated guidance to streamline requirements... and, where feasible, a single technical dossier."</em> This framework is a direct operational response to that challenge: it is designed to <strong>unify these three compliance pathways into a single operational architecture</strong>, treating each regulatory obligation not in isolation but as part of an integrated system.</p>
+<hr />
+<h2>Key Governance Design Decisions</h2>
+<h3>1. Dual-Purpose Human Oversight</h3>
+<p><em>Addresses: GDPR Article 22 · EU AI Act Article 14</em></p>
+<p>The framework designs human oversight as the core decision architecture, not a compliance checkbox. The AI-CTDSS operates strictly as a recommendation engine. The triage nurse must input an initial clinical impression before the AI score is revealed (preventing automation bias anchoring), and retains final, unlockable authority over the triage category.</p>
+<p>This single design mechanism satisfies two independent legal obligations simultaneously:
+- <strong>GDPR Article 22:</strong> Ensures the triage decision is never "based solely on automated processing," protecting patients' right not to be subject to purely automated decisions.
+- <strong>EU AI Act Article 14:</strong> Enforces "effective human oversight by natural persons" for high-risk AI systems, including the ability to understand outputs, identify risks, and intervene or override.</p>
+<h3>2. Code-to-Documentation Linkage and Ownership</h3>
+<p><em>Addresses: EU AI Act Article 11 · Annex IV (Technical Documentation)</em></p>
+<p>Documentation failure is the primary post-deployment compliance risk. The framework implements a RACI-driven ownership model where every regulatory obligation is assigned to a named organizational role. Critically, no model update can be deployed unless the corresponding technical documentation has been explicitly signed off by its respective owners — creating a hard gate between model retraining and clinical deployment.</p>
+<h3>3. Unified Post-Market Monitoring and Telemetry</h3>
+<p><em>Addresses: EU AI Act Articles 12 &amp; 72 · MDR Article 87</em></p>
+<p>The framework structurally aligns clinical safety monitoring with regulatory monitoring. By requiring a sub-2-second reason capture for every clinician override, the system generates a live telemetry feed for the Clinical Governance team. The EU AI Act Article 72 mandates continuous post-market monitoring for high-risk systems; MDR Article 87 mandates external reporting of serious incidents within 15 days (or 10 days for events involving death or serious deterioration). Per-inference model version logging (detailed in Section 6 of this framework, in compliance with EU AI Act Article 12) ensures root-cause analysis is always technically feasible following an adverse event.</p>
+<hr />
+<p><em>Sources: EU AI Act 2024/1689, Articles 6, 12, 14, 72, Annex IV; GDPR 2016/679, Article 22; MDR 2017/745, Article 87.</em></p>
+<h1>Section 1: System Definition and Scope</h1>
+<p><em>(Updated with Regulatory Citations — EU MDR 2017/745 &amp; EU AI Act 2024/1689)</em></p>
+<hr />
+<h2>1.1 Executive Overview</h2>
+<p>This document establishes the foundational scope and system definition for the AI Clinical Triage Decision Support System (AI-CTDSS). A robust AI governance framework relies fundamentally on precise system boundaries. Ambiguity in system definition creates legal, compliance, and clinical safety gaps throughout the lifecycle of the product. This section outlines exactly what the AI-CTDSS is, who it is for, its operational boundaries, and its primary regulatory classification, serving as the basis for all subsequent governance, risk management, and compliance (GRC) activities.</p>
+<h2>1.2 System Description</h2>
+<p>The <strong>AI Clinical Triage Decision Support System (AI-CTDSS)</strong> is a machine learning-based clinical decision support tool designed for deployment at hospital emergency department (ED) intake. Its primary function is to analyze acute patient presentations and recommend an initial triage priority score to the attending triage clinician.</p>
+<p><strong>Data Ingestion Pipeline:</strong>
+At the point of registration and initial assessment, the AI-CTDSS ingests four primary categories of patient intake data:
+1. <strong>Presenting Symptoms:</strong> Chief complaints as recorded by the intake nurse or self-reported by the patient (natural language processed or structured inputs).
+2. <strong>Measured Vitals:</strong> Objective physiological measurements including Blood Pressure (BP), Heart Rate (HR), Peripheral Oxygen Saturation (SpO2), Respiratory Rate, and Temperature.
+3. <strong>Medical History:</strong> Relevant, self-reported historical medical data (e.g., known chronic conditions, current primary medications).
+4. <strong>Demographic Data:</strong> Age and biological sex, which are critical variables for certain acute clinical risk scores.</p>
+<p><strong>Output Generation:</strong>
+Based on this multi-modal ingestion, the AI-CTDSS processes the data through its predictive algorithms to produce a <strong>triage priority score ranging from 1 to 5</strong>, strictly aligned with the established Manchester Triage System (MTS) categories. This algorithmic output is presented to the attending triage nurse via the Electronic Health Record (EHR) interface as a clinical <em>recommendation</em>, accompanied by a confidence interval and the key variables driving the recommendation.</p>
+<h3>System Architecture &amp; Data Flow Diagram</h3>
+<p>This diagram visually maps the flow of patient data through the AI-CTDSS, highlighting where specific regulatory controls (GDPR Data Minimisation, EU AI Act Human Oversight) are technically enforced.</p>
+<div class="mermaid-container"><div class="mermaid">
+graph TD
+    %% Define Styles
+    classDef ehr fill:#eef2f7,stroke:#4a90d9,stroke-width:2px;
+    classDef ai fill:#f4f8fd,stroke:#2b547e,stroke-width:2px;
+    classDef human fill:#fff3cd,stroke:#ffc107,stroke-width:2px;
+    classDef log fill:#d4edda,stroke:#28a745,stroke-width:2px;
+    classDef alert fill:#f8d7da,stroke:#dc3545,stroke-width:2px;
+
+    %% Data Ingestion Phase
+    A[Patient Arrives at ED] --> B(Triage Nurse Initial Assessment)
+    B --> C[(Hospital EHR System)]
+    class C ehr
+
+    %% GDPR Minimisation Gate
+    C -- "Raw Data (Vitals, Symptoms, Full History)" --> D{GDPR Minimisation Filter}
+    D -- "Drops >12 month history" --> E[Structured Intake Payload]
+    class D alert
+
+    %% AI Processing Phase
+    E --> F[AI-CTDSS Inference Engine]
+    F --> G[Raw AI Priority Score generated]
+    class F ai
+
+    %% The Delayed Reveal (Human Oversight)
+    B -- "Enters Clinical Impression" --> H{The Delayed Reveal UI}
+    G -- "Hidden in background" --> H
+
+    H -- "Unlocks AI Score" --> I[Nurse compares Impression vs AI Score]
+    class H,I human
+
+    %% Final Decision & Logging
+    I --> J{Does Nurse Agree with AI?}
+    J -- "Yes" --> K[Final Triage Category Assigned]
+    J -- "No (Override)" --> L[Mandatory Reason Capture] --> K
+
+    K --> M[(Clinical Audit Trail - 10 Year Retention)]
+    K --> N[(AI Telemetry Log - 6 Month Retention)]
+    class M,N log
+</div></div>
+<p><strong>Strategic Highlights of this Architecture:</strong>
+- <strong>The Minimisation Filter (GDPR Art. 5):</strong> The AI never touches the patient's entire medical record, stripping out irrelevant data before inference to reduce statistical noise and privacy liability.
+- <strong>The Delayed Reveal UI (GDPR Art. 22 &amp; AI Act Art. 14):</strong> The AI score is physically blocked from the nurse's view until they commit their own clinical impression. This breaks the "automation bias" feedback loop.
+- <strong>Bifurcated Logging (AI Act Art. 12 &amp; MDR):</strong> Clinical records are kept for 10 years (patient safety), but raw AI telemetry is purged after 6 months to minimize data exposure.</p>
+<h2>1.3 Intended Purpose and Intended Users</h2>
+<h3>Intended Purpose</h3>
+<p>The explicit intended purpose of the AI-CTDSS is to <strong>inform and assist</strong> the triage category assignment process in high-volume, time-sensitive emergency care environments. By synthesizing disparate data points rapidly, it aims to reduce cognitive load on clinicians, minimize human error in under-triage scenarios (where a critical patient is incorrectly assessed as non-urgent), and standardize triage acuity scoring across different shifts and personnel.</p>
+<h3>Intended Users</h3>
+<p>The AI-CTDSS is exclusively designed for use by qualified healthcare professionals. The primary intended users are:
+- <strong>Triage Nurses:</strong> The primary operators who conduct the initial patient assessment and make the final triage categorization.
+- <strong>Emergency Physicians:</strong> Secondary users who may reference the AI-CTDSS score during subsequent clinical evaluation or patient flow management.</p>
+<h3>Explicit Non-Purposes (What the System Does NOT Do)</h3>
+<p>To prevent off-label usage and contain legal liability, it must be explicitly stated what the system is not authorized to do:
+- <strong>It does NOT diagnose:</strong> The system evaluates acuity and urgency; it does not identify underlying pathology or disease states.
+- <strong>It does NOT prescribe:</strong> It offers no therapeutic or pharmacological recommendations.
+- <strong>It does NOT dictate admission or discharge:</strong> Final patient disposition remains entirely outside the system's operational purview.
+- <strong>It does NOT automate decisions:</strong> The system is explicitly designed as a "decision support" tool. It cannot autonomously assign a triage score without human review and confirmation.</p>
+<h2>1.4 System Boundaries</h2>
+<p>Defining the boundaries of the AI-CTDSS is a critical governance exercise. The following elements are explicitly <strong>out of scope</strong> for the current system architecture and subsequent compliance obligations:</p>
+<ul>
+<li><strong>Medical Imaging:</strong> The AI-CTDSS does not process, analyze, or ingest radiological data (X-rays, CT, MRI, ultrasound). Systems involving radiological computer-aided triage (CADt) require distinct regulatory pathways.</li>
+<li><strong>Pediatric Triage:</strong> The current iteration of the AI-CTDSS model has been trained primarily on adult populations. Due to the physiological differences and unique triage scales for pediatrics, patients under the age of 16 are out of scope. The system must feature a hard stop or bypass mechanism for pediatric intakes.</li>
+<li><strong>Mass Casualty Incidents (MCI):</strong> The model is calibrated for routine emergency department operations. It is not designed to govern triage in disaster or mass casualty scenarios where reverse triage or fundamentally different ethical and clinical guidelines apply.</li>
+</ul>
+<h2>1.5 Regulatory Classification</h2>
+<p>Based on its intended purpose and operational mechanics, the AI-CTDSS operates at the intersection of two major EU regulatory frameworks.</p>
+<h3>1.5.1 Medical Device Classification (EU MDR 2017/745)</h3>
+<p>The system is classified as <strong>Software as a Medical Device (SaMD)</strong>. The EU Medical Device Regulation (EU MDR 2017/745) defines a medical device as "any instrument, apparatus, appliance, software… intended by the manufacturer to be used, alone or in combination… for the purpose of diagnosis, prevention, monitoring, prediction, prognosis, treatment or alleviation of disease."</p>
+<p>The AI-CTDSS squarely meets this definition as software intended to inform clinical decisions with diagnostic intent (urgency classification).</p>
+<p><strong>Risk Classification — Class IIa:</strong>
+Under Annex VIII, Rule 11 of the EU MDR, software intended to provide information used for decisions with diagnostic or therapeutic purposes is classified according to the severity of the health impact if the decision is incorrect:</p>
+<blockquote>
+<p><em>"Software intended to provide information which is used to take decisions with diagnosis or therapeutic purposes is classified as class IIa, except if such decisions have an impact that may cause:... serious deterioration of a person's state of health or a surgical intervention, in which case it is in class IIb..."</em> — MDR Annex VIII, Rule 11</p>
+</blockquote>
+<p>Because the AI-CTDSS influences triage assignment in emergency situations where an under-triage error could lead to serious deterioration of health (e.g., a patient in early septic shock triaged as non-urgent), it is classified as a <strong>Class IIa</strong> medical device. This classification triggers the requirement for a conformity assessment by a <strong>Notified Body</strong> and affixing the <strong>CE Mark</strong> before market placement.</p>
+<p><strong>Key MDR Obligations This Classification Triggers:</strong>
+- Maintenance of a <strong>Technical File</strong> (equivalent to the Technical Documentation defined in this framework).
+- A <strong>Post-Market Surveillance (PMS) system</strong> for the lifetime of the device (see Section 8).
+- Registration in the <strong>EUDAMED</strong> database.
+- Clinical Evaluation and continued performance assessment.</p>
+<h3>1.5.2 Artificial Intelligence Classification (EU AI Act 2024/1689)</h3>
+<p>The EU AI Act (Regulation 2024/1689, in force from August 2024) establishes the first comprehensive legal framework for artificial intelligence in the world. Under this regulation, the AI-CTDSS is unambiguously classified as a <strong>High-Risk AI System</strong>.</p>
+<p>This classification derives from two independent grounds:</p>
+<p><strong>Ground 1 — Product Safety Component (Article 6(1)):</strong>
+The AI Act classifies as high-risk any AI system that is a safety component of a product covered by EU harmonization legislation listed in Annex I. The EU MDR is listed in Annex I. Because the AI-CTDSS is SaMD governed by the MDR, it is automatically high-risk.</p>
+<p><strong>Ground 2 — Annex III Enumerated Use Case (Article 6(2)):</strong>
+Annex III, Point 5(a) captures AI systems "intended to be used by or on behalf of public authorities or Union institutions, bodies, offices or agencies to evaluate the eligibility of natural persons for essential public services and benefits" — which the EU Commission has clarified includes AI used to prioritize access to emergency healthcare. A triage system directly determines the order and urgency of care provision, placing it within this enumerated category.</p>
+<p><strong>Key High-Risk AI Act Obligations Triggered:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Obligation</th>
+<th style="text-align: left;">Relevant Section of This Framework</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Risk Management System (Art. 9)</td>
+<td style="text-align: left;">Section 2</td>
+</tr>
+<tr>
+<td style="text-align: left;">Data Governance (Art. 10)</td>
+<td style="text-align: left;">Section 3</td>
+</tr>
+<tr>
+<td style="text-align: left;">Technical Documentation (Art. 11)</td>
+<td style="text-align: left;">Section 5</td>
+</tr>
+<tr>
+<td style="text-align: left;">Record Keeping &amp; Logging (Art. 12)</td>
+<td style="text-align: left;">Section 6</td>
+</tr>
+<tr>
+<td style="text-align: left;">Transparency to Operators (Art. 13)</td>
+<td style="text-align: left;">Section 7</td>
+</tr>
+<tr>
+<td style="text-align: left;">Human Oversight (Art. 14)</td>
+<td style="text-align: left;">Section 4</td>
+</tr>
+<tr>
+<td style="text-align: left;">Accuracy &amp; Robustness (Art. 15)</td>
+<td style="text-align: left;">Section 8</td>
+</tr>
+</tbody>
+</table>
+<h3>1.5.3 Regulatory Jurisdiction</h3>
+<p>For the purposes of this governance framework, we assume initial deployment within the European Union (Germany). Therefore, the system falls under the jurisdiction of:
+- <strong>BfArM</strong> (Federal Institute for Drugs and Medical Devices) — MDR oversight.
+- <strong>BfDI</strong> (Federal Commissioner for Data Protection and Freedom of Information) — GDPR oversight.
+- The designated national AI supervisory authority — EU AI Act oversight.</p>
+<hr />
+<p><em>Sources: EU Medical Device Regulation 2017/745, Annex VIII, Rule 11; EU Artificial Intelligence Act 2024/1689, Articles 6, 9-15, Annex I, Annex III.</em></p>
+<h1>Section 2: Risk Classification Analysis</h1>
+<p><em>(Updated with Industry &amp; Regulatory Citations — McKinsey, EU AI Act, MDR 2017/745)</em></p>
+<hr />
+<h2>2.1 Overview</h2>
+<p>To establish the regulatory obligations for the AI-CTDSS, we must formally determine its risk classification under the EU Artificial Intelligence Act (Regulation 2024/1689). The AI Act employs a tiered, risk-based approach — ranging from minimal to unacceptable risk — to ensure that regulatory burdens are proportionate to the potential for harm.</p>
+<p>This section provides a rigorous, auditable walkthrough of the classification criteria. It is not sufficient to merely state that a clinical system is "high-risk." Governance requires demonstrating the <strong>precise legal pathways</strong> that mandate this classification, enabling legal, product, and Notified Body stakeholders to validate the logic independently.</p>
+<blockquote>
+<p><em>"Non-compliance with the [AI Act's] rules on high-risk AI systems shall be subject to administrative fines of up to 15,000,000 EUR or, if the offender is an undertaking, up to 3% of its total worldwide annual turnover."</em> — EU AI Act Article 99(4)</p>
+</blockquote>
+<p>McKinsey &amp; Company (<em>The European Union AI Act: Time to start preparing</em>, November 2024) underlines the strategic severity of non-compliance, noting maximum fines of up to <strong>35,000,000 EUR or 7% of global turnover</strong> for violations of prohibited AI practices (EU AI Act Article 99(3)), and <strong>15,000,000 EUR or 3%</strong> for non-compliance with high-risk AI system obligations (Article 99(4)). McKinsey's central recommendation is that organizations treat compliance not as a one-time certification event but as a <strong>continuous governance programme</strong> — precisely the philosophy this framework embeds through its RACI model, Code-to-Documentation gating, and ongoing Post-Market Monitoring cadence. The classification below ensures the AI-CTDSS avoids these existential regulatory risks by achieving defensible, documented high-risk compliance from day one.</p>
+<hr />
+<h2>2.2 Step 1: Application of Annex III Criteria</h2>
+<p>Annex III of the EU AI Act enumerates specific use cases that automatically qualify an AI system as high-risk. A systematic assessment against each Annex III category:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Annex III Category</th>
+<th style="text-align: left;">Applicable?</th>
+<th style="text-align: left;">Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Point 1 — Biometric identification</td>
+<td style="text-align: left;">❌ No</td>
+<td style="text-align: left;">System does not perform biometric identification</td>
+</tr>
+<tr>
+<td style="text-align: left;">Point 2 — Critical infrastructure</td>
+<td style="text-align: left;">❌ No</td>
+<td style="text-align: left;">Not applicable</td>
+</tr>
+<tr>
+<td style="text-align: left;">Point 3 — Education</td>
+<td style="text-align: left;">❌ No</td>
+<td style="text-align: left;">Not applicable</td>
+</tr>
+<tr>
+<td style="text-align: left;">Point 4 — Employment</td>
+<td style="text-align: left;">❌ No</td>
+<td style="text-align: left;">Not applicable</td>
+</tr>
+<tr>
+<td style="text-align: left;">Point 5a — Essential public services</td>
+<td style="text-align: left;">✅ Yes</td>
+<td style="text-align: left;">Independent ground for high-risk classification (emergency healthcare triage)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Point 6 — Law enforcement</td>
+<td style="text-align: left;">❌ No</td>
+<td style="text-align: left;">Not applicable</td>
+</tr>
+<tr>
+<td style="text-align: left;">Point 7 — Migration / border control</td>
+<td style="text-align: left;">❌ No</td>
+<td style="text-align: left;">Not applicable</td>
+</tr>
+<tr>
+<td style="text-align: left;">Point 8 — Administration of justice</td>
+<td style="text-align: left;">❌ No</td>
+<td style="text-align: left;">Not applicable</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Safety component in harmonized legislation (MDR)</strong></td>
+<td style="text-align: left;">✅ <strong>Primary basis</strong></td>
+<td style="text-align: left;">See Section 2.3</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2.3 Step 2: The MDR Cross-Reference (EU AI Act Article 6(1))</h2>
+<p>Article 6(1) of the EU AI Act states that an AI system is high-risk if it is "intended to be used as a safety component of a product, or is itself a product, covered by the Union harmonization legislation listed in Annex I" — and that product requires third-party conformity assessment. The EU MDR (2017/745) is listed in Annex I.</p>
+<p>To validate this path, we assess the AI-CTDSS under the MDR's SaMD classification rules:</p>
+<p><strong>Step A — Medical Device Definition (MDR Article 2(1)):</strong>
+The MDR defines a medical device as "any instrument, apparatus, appliance, software… intended by the manufacturer to be used… for the purpose of diagnosis, prevention, monitoring, prediction, prognosis, treatment or alleviation of disease." The AI-CTDSS provides information to support decisions with diagnostic intent (urgency/acuity classification). It qualifies.</p>
+<p><strong>Step B — MDR Classification (Annex VIII, Rule 11):</strong></p>
+<blockquote>
+<p><em>"Software intended to provide information which is used to take decisions with diagnosis or therapeutic purposes is classified as class IIa, except if such decisions have an impact that may cause: — serious deterioration of a person's state of health or a surgical intervention, in which case it is in class IIb."</em> — MDR Annex VIII, Rule 11</p>
+</blockquote>
+<p><strong>Step C — Application to AI-CTDSS:</strong>
+In emergency triage, an incorrect assessment (under-triage) can directly delay critical care, leading to serious deterioration of patient health. The system is therefore classified as a minimum of <strong>Class IIa</strong>, requiring third-party Notified Body conformity assessment under MDR.</p>
+<p><strong>Conclusion:</strong> Because the AI-CTDSS is a Class IIa medical device requiring Notified Body assessment, it triggers <strong>automatic high-risk classification under EU AI Act Article 6(1).</strong></p>
+<hr />
+<h2>2.4 Step 3: EU AI Act Article 6(2) and 6(3) Independent Self-Assessment</h2>
+<p>Even absent the MDR cross-reference, EU AI Act Article 6(2) provides an independent pathway by classifying AI systems listed in Annex III as high-risk. While EU AI Act Article 6(3) provides a derogation (exemption) for Annex III systems if they do not pose a "significant risk of harm" to health, safety, or fundamental rights, the AI-CTDSS does not qualify for this exemption.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Assessment Criterion</th>
+<th style="text-align: left;">Finding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Risk profile</td>
+<td style="text-align: left;">Directly influences the prioritization of emergency medical care</td>
+</tr>
+<tr>
+<td style="text-align: left;">Harm potential</td>
+<td style="text-align: left;">Algorithmic error or bias can result in a critical patient being categorized as non-urgent</td>
+</tr>
+<tr>
+<td style="text-align: left;">Nature of harm</td>
+<td style="text-align: left;">Direct, significant, and foreseeable risk to patient health and life</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Conclusion</strong></td>
+<td style="text-align: left;"><strong>Independently meets the EU AI Act Article 6(2) threshold (via Annex III) and does not qualify for the EU AI Act Article 6(3) exemption</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2.5 Classification Conclusion</h2>
+<p>The AI-CTDSS is classified as a high-risk AI system under EU AI Act Article 6(1) as a safety component in a medical device subject to Regulation (EU) 2017/745 (MDR) requiring third-party conformity assessment. It is independently classified as high-risk under EU AI Act Article 6(2) (via Annex III) and cannot claim the EU AI Act Article 6(3) exemption due to its potential for significant harm to patient safety through incorrect urgency classification.</p>
+<p>This dual-justification ensures robust regulatory positioning and mandates compliance with all high-risk AI system requirements under Articles 9 through 15 of the EU AI Act — including risk management, data governance, technical documentation, transparency, human oversight, accuracy, and robustness.</p>
+<hr />
+<p><em>Sources: EU Artificial Intelligence Act 2024/1689, Articles 6(1), 6(2), 99(3), 99(4), Annex I, Annex III; EU Medical Device Regulation 2017/745, Article 2(1), Annex VIII Rule 11; McKinsey &amp; Company (2024), The European Union AI Act: Time to start preparing, McKinsey.com.</em></p>
+<h1>Section 3: GDPR Compliance Architecture</h1>
+<p><em>(Updated with Regulatory Citations — GDPR 2016/679 &amp; EU AI Act Art. 10)</em></p>
+<hr />
+<h2>3.1 Overview</h2>
+<p>Because the AI-CTDSS ingests and processes patient health information to generate triage scores, it fundamentally operates on <strong>special category data</strong> as defined by Article 9 of the General Data Protection Regulation (GDPR 2016/679).</p>
+<p>A core principle of AI governance is that data governance and system governance are functionally inseparable. The decisions made regarding the lawful basis for processing, data minimisation, and data subject rights directly constrain and shape how the AI system operates and how it is held accountable under the EU AI Act. This section outlines the integrated legal and operational architecture required to lawfully process data within the AI-CTDSS framework.</p>
+<h2>3.2 Part A: Legal Basis for Processing</h2>
+<p>Processing health data under GDPR requires a <strong>dual legal basis</strong>: a lawful basis under Article 6, and a specific condition for processing special category data under Article 9. For the deployment of the AI-CTDSS in a public hospital setting, the architectural alignment is as follows:</p>
+<ol>
+<li>
+<p><strong>Article 6(1)(e) — Public Interest:</strong> The processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller (the hospital). Emergency triage is a core public health function.</p>
+<blockquote>
+<p><em>"Processing shall be lawful only if and to the extent that at least one of the following applies: (e) processing is necessary for the performance of a task carried out in the public interest..."</em> — GDPR Article 6(1)(e)</p>
+</blockquote>
+</li>
+<li>
+<p><strong>Article 9(2)(h) — Health or Social Care:</strong> The processing of special category (health) data is lawful because it is "necessary for the purposes of preventive or occupational medicine… medical diagnosis, the provision of health or social care or treatment."</p>
+<blockquote>
+<p><em>"Processing of personal data revealing racial or ethnic origin, political opinions... data concerning health... shall be prohibited. Paragraph 1 shall not apply if... (h) processing is necessary for the purposes of preventive or occupational medicine..."</em> — GDPR Article 9(1) and 9(2)(h)</p>
+</blockquote>
+</li>
+</ol>
+<div class="alert-box alert-important"><div class="alert-header">⚠️ IMPORTANT</div><div class="alert-body">Relying on consent (Articles 6(1)(a) and 9(2)(a)) is <strong>explicitly avoided</strong> as the legal basis. In an emergency medical context, patients are often in acute distress, meaning consent cannot be deemed "freely given," informed, or unambiguous — thereby legally invalidating it.</div></div>
+
+<h2>3.3 Part B: Data Minimisation Design (GDPR Article 5(1)(c))</h2>
+<p>The GDPR mandates that data collection be "adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed" (GDPR Art. 5(1)(c) — the data minimisation principle). This principle intersects directly with AI model quality, as over-collection can introduce statistical noise and bias.</p>
+<p>The data inputs for the AI-CTDSS are strictly governed by the following minimisation parameters:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Data Input</th>
+<th style="text-align: left;">Necessity Assessment</th>
+<th style="text-align: left;">Governance Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Presenting Symptoms</td>
+<td style="text-align: left;"><strong>Necessary</strong> — primary clinical anchor for the model</td>
+<td style="text-align: left;">None required</td>
+</tr>
+<tr>
+<td style="text-align: left;">Measured Vitals (BP, HR, SpO2, Temp)</td>
+<td style="text-align: left;"><strong>Necessary</strong> — objective physiological baseline</td>
+<td style="text-align: left;">SpO2 bias monitoring (see Section 3.7)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Age and Biological Sex</td>
+<td style="text-align: left;"><strong>Necessary but Monitored</strong> — required for clinical accuracy; introduces demographic bias risk</td>
+<td style="text-align: left;">Isolated in feature importance logging; bias audit at ±5% variance</td>
+</tr>
+<tr>
+<td style="text-align: left;">Recent Medical History (last 12 months only)</td>
+<td style="text-align: left;"><strong>Conditionally Necessary</strong> — restricted to recent history and active clinical flags only</td>
+<td style="text-align: left;">Hard architectural limit: no access to full EHR history</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note:</strong> Restricting medical history ingestion to 12 months is a deliberate design choice to satisfy both data minimisation (GDPR Art. 5(1)(c)) and to prevent the model from being confused by outdated or irrelevant chronic history.</p>
+</blockquote>
+<h2>3.4 Part C: Data Retention Schedule</h2>
+<p>The retention of data processed by the AI-CTDSS creates a regulatory tension between three competing frameworks. The governance architecture resolves this by applying the maximum mandatory retention period based on the data's function:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Regulatory Obligation</th>
+<th style="text-align: left;">Data Category</th>
+<th style="text-align: left;">Required Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">EU AI Act, Articles 12 &amp; 19</td>
+<td style="text-align: left;">Technical/system logs</td>
+<td style="text-align: left;">Minimum 6 months</td>
+</tr>
+<tr>
+<td style="text-align: left;">MDR — Post-Market Surveillance</td>
+<td style="text-align: left;">Device performance records</td>
+<td style="text-align: left;">Up to 10 years</td>
+</tr>
+<tr>
+<td style="text-align: left;">National Clinical Records Law (e.g., Germany §10 MBO-Ä)</td>
+<td style="text-align: left;">Patient triage records</td>
+<td style="text-align: left;">Minimum 10 years</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Resolution:</strong> Patient triage records (the AI recommendation + the clinician's final decision + the input data) are classified as clinical records and retained within the EHR for <strong>10 years</strong>. Purely technical AI system logs (latency, model telemetry) are stripped of direct patient identifiers after 6 months to minimize identifiable data while fulfilling AI Act obligations.</p>
+<h2>3.5 Part D: Data Subject Rights and GDPR Article 22</h2>
+<p>The AI-CTDSS must facilitate standard GDPR rights (Access — Art. 15, Rectification — Art. 16, Restriction — Art. 18). However, the most critical architectural requirement stems from <strong>Article 22</strong>, which grants data subjects:</p>
+<blockquote>
+<p><em>"The right not to be subject to a decision based solely on automated processing, including profiling, which produces legal effects concerning him or her or similarly significantly affects him or her."</em> — GDPR Article 22(1)</p>
+</blockquote>
+<p>Because an emergency triage score significantly affects a patient — determining the urgency and order of their care — the system must be explicitly designed to avoid "solely automated" classification.</p>
+<p><strong>The Integrated Solution:</strong>
+The design mechanism that satisfies GDPR Article 22 is the exact same mechanism that satisfies EU AI Act Article 14 (Human Oversight). The AI-CTDSS operates strictly as a <strong>recommendation engine</strong>. A qualified human clinician always makes the final triage categorization — the process is never "solely automated," legally neutralizing the Article 22 restriction while simultaneously complying with Article 14.</p>
+<blockquote>
+<p>This dual compliance through a single design mechanism (human-in-the-loop) is a deliberate architectural efficiency and a key strength of this governance framework's design.</p>
+</blockquote>
+<h2>3.6 Part E: Data Protection Impact Assessment (DPIA)</h2>
+<p>Under GDPR Article 35, a DPIA is mandatory when processing is "likely to result in a high risk to the rights and freedoms of natural persons." The EU Data Protection Authorities' guidelines clarify that processing special category health data using automated profiling or decision-support systems <strong>automatically triggers</strong> this requirement.</p>
+<p>The DPIA for the AI-CTDSS is a mandatory pre-deployment artefact and must be maintained as a living document by the Data Protection Officer (DPO), reviewed:
+- <strong>Annually</strong>, at minimum.
+- <strong>Immediately</strong> following any significant model update or change in data processing scope.</p>
+<p>The DPIA structure answers four core questions:</p>
+<ol>
+<li><strong>Nature, Scope, Context, and Purposes:</strong> What is being processed and why? <em>(Answered in Sections 1 &amp; 3.2).</em></li>
+<li><strong>Necessity and Proportionality:</strong> Is the data collection minimized? <em>(Answered in Section 3.3).</em></li>
+<li><strong>Risks to Rights and Freedoms:</strong> What happens if the data is breached, or the algorithm discriminates against a protected group?</li>
+<li><strong>Mitigation Measures:</strong> How are these risks reduced? <em>(e.g., pseudonymization of telemetry logs, human-in-the-loop override requirements, robust cybersecurity controls).</em></li>
+</ol>
+<h2>3.7 Part F: Algorithmic Fairness Assessment (EU AI Act Article 10)</h2>
+<p>Bias and algorithmic fairness are not merely ethical considerations; they are <strong>strict regulatory requirements</strong> under EU AI Act Article 10, which mandates that training and validation data be:</p>
+<blockquote>
+<p><em>"...relevant, sufficiently representative, and to the best extent possible, free of errors and complete... having regard to the intended purpose of the high-risk AI system... appropriate data governance and management practices shall apply."</em> — EU AI Act Article 10(2)-(3)</p>
+</blockquote>
+<p><strong>1. Known Clinical Bias Risks in Triage:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Bias Type</th>
+<th style="text-align: left;">Mechanism</th>
+<th style="text-align: left;">Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">SpO2 Racial Bias</td>
+<td style="text-align: left;">SpO2 sensors can over-read in patients with darker skin pigmentation, producing falsely elevated readings and masking hypoxia</td>
+<td style="text-align: left;">Isolated monitoring of SpO2 feature weight; alert protocols for low-confidence readings</td>
+</tr>
+<tr>
+<td style="text-align: left;">Atypical Presentation Bias</td>
+<td style="text-align: left;">Female and elderly patients present atypically for MI; if training data over-represents textbook male presentations, the model under-scores these groups</td>
+<td style="text-align: left;">Real-time low-confidence alerts for atypical presentations; supported by retrospective stratified bias audits</td>
+</tr>
+<tr>
+<td style="text-align: left;">Training Data Population Bias</td>
+<td style="text-align: left;">If training data originated primarily from one geographic/demographic cohort, performance may degrade in dissimilar deployment populations</td>
+<td style="text-align: left;">Provenance tracking of all training datasets</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2. Fairness Metric Selection — Equalized Odds:</strong>
+The primary fairness metric for the AI-CTDSS is <strong>Equalized Odds</strong>.
+- <em>Justification:</em> Demographic parity (equal positive prediction rates across groups) is inappropriate for clinical triage because actual disease prevalence legitimately varies by demographic. Equalized Odds instead ensures that <strong>error rates</strong> — specifically the false negative (under-triage) rate — are equal across all groups. The clinical cost of a false negative is too high to allow it to disproportionately affect any protected group.</p>
+<p><strong>3. Governance Thresholds:</strong>
+- <strong>Review Cadence:</strong> Bias metrics are reviewed <strong>monthly</strong> by the Clinical Governance Team.
+- <strong>Action Threshold:</strong> If the under-triage rate across any demographic group varies by more than <strong>±5%</strong> from the overall population average, an immediate model review and potential retraining cycle is triggered.</p>
+<hr />
+<p><em>Sources: General Data Protection Regulation (GDPR) 2016/679, Articles 5, 6, 9, 15, 16, 18, 22, 35; EU Artificial Intelligence Act 2024/1689, Article 10.</em></p>
+<h1>Section 4: Human Oversight Design</h1>
+<h2>4.1 Overview</h2>
+<p>Article 14 of the EU AI Act dictates that high-risk AI systems must be designed and developed in such a way that they can be effectively overseen by natural persons. This requirement acknowledges that algorithmic outputs in high-stakes environments—such as emergency triage—cannot operate autonomously without risking severe harm.</p>
+<p>However, "human oversight" is not achieved simply by putting a human in the room. This section translates the abstract regulatory requirement into operational design, defining exactly how the clinician interacts with the AI-CTDSS to prevent both under-triage errors and the cognitive hazard of automation bias. </p>
+<p>The OECD (<em>Progress in Implementing the EU Coordinated Plan on AI, Volume 2: Uptake in High-Impact Sectors</em>, 2026) identifies the shortage of AI-skilled professionals in healthcare as a primary barrier to responsible AI adoption, recommending that Member States <em>"institutionalise AI literacy in healthcare quality standards"</em> and integrate digital competency into hospital accreditation frameworks. Automation bias and lack of trust can only be mitigated through structural workflow design and dedicated training — the approach this section operationalises.</p>
+<h3>Human Oversight Spectrum</h3>
+<p>Human oversight is not a binary; it is a spectrum ranging from full human control to full AI autonomy. The EU AI Act implicitly recognises three configurations:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Configuration</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">AI Authority</th>
+<th style="text-align: left;">Human Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Human-in-the-loop</strong></td>
+<td style="text-align: left;">The human always makes the final decision. The AI provides a recommendation only.</td>
+<td style="text-align: left;">None — advisory only</td>
+<td style="text-align: left;">Decision-maker</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Human-on-the-loop</strong></td>
+<td style="text-align: left;">The AI acts autonomously by default, but a human monitors and can intervene.</td>
+<td style="text-align: left;">Acts unless overridden</td>
+<td style="text-align: left;">Monitor / intervenor</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Human-in-command</strong></td>
+<td style="text-align: left;">The AI acts autonomously within defined boundaries. A human sets the boundaries and can revoke autonomy.</td>
+<td style="text-align: left;">Acts within constraints</td>
+<td style="text-align: left;">Boundary-setter</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The AI-CTDSS operates in a strict human-in-the-loop configuration.</strong> The system generates a triage recommendation; the triage nurse always makes the final categorisation decision. The AI cannot autonomously assign a triage score, lock a category, or bypass the human step.</p>
+<p><strong>Why this configuration is appropriate:</strong> Given the system's risk profile (patient death from under-triage), the time-critical but not time-impossible nature of ED triage (a nurse can review a recommendation in seconds), and the availability of qualified human oversight at all times during operation, human-in-the-loop is the only configuration that satisfies both the EU AI Act Article 14 obligations and the clinical safety requirements. Human-on-the-loop would be insufficient because the cost of a single unreviewed error is too high to accept even briefly.</p>
+<h2>4.2 Part A: Decision Architecture</h2>
+<p>The triage workflow integrates the AI-CTDSS as a secondary validation tool rather than a primary diagnostic arbiter. The operational flow is designed as follows:</p>
+<ol>
+<li><strong>Patient Intake:</strong> The patient arrives at the ED. The triage nurse collects intake data (symptoms, vitals, demographic data).</li>
+<li><strong>Preliminary Assessment:</strong> The triage nurse formulates a preliminary clinical impression <em>before</em> consulting the AI score.</li>
+<li><strong>Algorithmic Processing:</strong> The AI-CTDSS ingests the structured intake data and generates a triage priority score (1–5).</li>
+<li><strong>Presentation of Recommendation:</strong> The AI score is displayed to the nurse on the Electronic Health Record (EHR) interface. Crucially, it is displayed <strong>alongside the key clinical variables driving the score</strong> (e.g., "AI Suggestion: Category 2. Key drivers: SpO2 91%, HR 118"). The confidence interval is also displayed (e.g., "Confidence: 87%").</li>
+<li><strong>Human Finalization:</strong> The triage nurse synthesizes their clinical impression with the AI recommendation and makes the final, authoritative triage category assignment.</li>
+<li><strong>Documentation:</strong> The final decision is recorded. If the nurse's decision diverges from the AI's recommendation (an "override"), the system captures this divergence and prompts for a reason.</li>
+</ol>
+<h2>4.3 Part B: Implementing EU AI Act Article 14(4) Criteria</h2>
+<p>The EU AI Act specifies explicit criteria for what constitutes effective human oversight. The AI-CTDSS fulfills these criteria through the following design mechanisms:</p>
+<ul>
+<li><strong>(a) Understand and monitor the system:</strong> The system avoids "black-box" outputs by featuring local explainability. The UI highlights the top three variables driving the score, allowing the clinician to trace the algorithmic logic back to the patient's presentation.</li>
+<li><strong>(b) Remain aware of automation bias:</strong> The UI designates the output explicitly as a "Recommendation." The interface is designed to make accepting the AI score require the same cognitive friction (e.g., the same number of clicks) as assigning a different score, preventing mindless acceptance.</li>
+<li><strong>(c) Correctly interpret the system's output:</strong> The AI provides a confidence interval alongside the score (e.g., "Category 3 - Confidence: 82%"). If the AI encounters ambiguous data, the confidence drops, signaling to the nurse that human clinical judgment must carry more weight. This criterion also requires a mandatory training programme (see Section 4.6).</li>
+<li><strong>(d) Decide not to use the system (The "Human Stop"):</strong> A documented bypass protocol exists for scenarios where the AI is structurally unreliable. For example, during mass casualty incidents (MCIs) or for pediatric patients (under 16), the AI-CTDSS is automatically suspended or visibly flagged as out-of-bounds.</li>
+<li><strong>(e) Intervene and interrupt:</strong> The triage nurse always retains the absolute technical and clinical authority to override the AI recommendation. The system cannot lock the triage category. The override mechanism requires no more than 2 clicks to execute, ensuring usability under ED time pressure.</li>
+</ul>
+<h2>4.4 Part C: Override Documentation Protocol and Governance</h2>
+<p>The override mechanism is not merely an operational necessity; it is a critical regulatory telemetry feed. When a clinician disagrees with the AI, the system must log the event to facilitate continuous Post-Market Monitoring (PMM).</p>
+<h3>Override Capture</h3>
+<p>When an override occurs, the EHR prompts the nurse to select a reason via a rapid dropdown menu (designed for &lt;2 seconds of interaction time to accommodate ED pacing):</p>
+<ul>
+<li><em>Clinical presentation contradicts data (e.g., patient looks "sick" despite normal vitals).</em></li>
+<li><em>Missing critical context (e.g., known complex chronic condition).</em></li>
+<li><em>Data quality concern (e.g., suspected faulty SpO2 reading).</em></li>
+<li><em>Other (free text - optional).</em></li>
+</ul>
+<h3>Override Governance Thresholds</h3>
+<p>The override rate is itself a governed metric. The expected override rate for a well-calibrated clinical AI is <strong>10–20%</strong> — high enough to confirm that nurses are exercising independent judgment, but low enough to confirm the model is broadly useful.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Override Signal</th>
+<th style="text-align: left;">What It Means</th>
+<th style="text-align: left;">Governance Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Override rate <strong>&lt;5%</strong> sustained</td>
+<td style="text-align: left;">Dangerously low — suggests automation bias. Nurses may be deferring to the AI uncritically.</td>
+<td style="text-align: left;">Trigger automation bias audit (see Section 4.5). Review whether the anchoring prevention mechanism is functioning. Mandatory refresher training.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Override rate <strong>10–20%</strong></td>
+<td style="text-align: left;">Healthy operating range. Nurses are using the AI as intended — as a recommendation they actively evaluate.</td>
+<td style="text-align: left;">No action. Continue routine monitoring.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Override rate <strong>20–35%</strong></td>
+<td style="text-align: left;">Elevated. May indicate model drift, a shift in patient population, or declining clinician trust.</td>
+<td style="text-align: left;">Clinical Governance review. Investigate whether the model needs retraining or whether a specific sub-population is driving the increase.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Override rate <strong>&gt;35%</strong> sustained</td>
+<td style="text-align: left;">Critical. The model has either drifted significantly or clinical trust has collapsed.</td>
+<td style="text-align: left;">Trigger formal model review (Section 8.4). Consider temporary suspension pending investigation. Escalate to CMO.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Governance Value:</strong> If 30% of all AI-assigned "Category 1" scores are being downgraded by clinicians due to "Clinical presentation contradicts data," the model is systematically over-triaging. The override log, combined with the thresholds above, serves as the primary dataset for the clinical governance team to audit model drift proactively rather than reactively.</p>
+<h2>4.5 Part D: Mitigating Automation Bias</h2>
+<p>Automation bias—the human tendency to defer to machine-generated outputs even when contradictory evidence exists—is the most significant behavioral risk in clinical AI. In a high-stress, cognitive-overload environment like an ED, a nurse may subconsciously adopt the AI score to save time.</p>
+<h3>Structural Mitigations</h3>
+<p>To structurally mitigate this risk, the AI-CTDSS interface relies on <strong>anchoring prevention</strong>:</p>
+<ol>
+<li><strong>Delayed Reveal:</strong> The AI recommendation is intentionally <strong>hidden</strong> until the nurse has completed the initial data intake and formulated a baseline mental model of the patient. The nurse must enter their own preliminary triage assessment before the AI score is revealed. This prevents the AI from becoming the cognitive anchor.</li>
+<li><strong>Low-Confidence Warning:</strong> If the nurse inputs a final triage category that matches a low-confidence AI recommendation (confidence &lt;70%), a soft warning is triggered ("AI confidence is low; please verify clinical assessment").</li>
+<li><strong>Equal Friction Design:</strong> The UI requires the same number of interactions to accept the AI score as to assign a different score. There is no "accept" shortcut that reduces the clicks relative to an override.</li>
+<li><strong>Over-Reliance Monitoring:</strong> The system tracks each nurse's acceptance rate (AI score accepted without modification) over rolling 30-day periods. If an individual nurse's acceptance rate exceeds 95% over 100+ triage events, this is flagged to the Clinical Training Manager for a targeted conversation — not punitive action, but a check on whether automation bias has developed.</li>
+</ol>
+<p>By forcing the clinician to anchor on their own judgment <em>before</em> seeing the algorithmic output, the governance framework preserves the integrity of the human-in-the-loop requirement, ensuring that the AI truly supports, rather than replaces, clinical decision-making.</p>
+<h2>4.6 Part E: Mandatory Training Programme (EU AI Act Article 14(4)(c))</h2>
+<p>EU AI Act Article 14(4)(c) requires that users be able to "correctly interpret the system's output." This cannot be achieved through interface design alone — it requires formal training. The AI-CTDSS governance framework mandates the following training programme for all triage staff:</p>
+<h3>Pre-Deployment Training (Mandatory — Completion Required Before System Access)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Module</th>
+<th style="text-align: left;">Content</th>
+<th style="text-align: left;">Duration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Module 1: System Overview</td>
+<td style="text-align: left;">What the AI-CTDSS does, what it does not do, how it generates scores, what a confidence interval means.</td>
+<td style="text-align: left;">1 hour</td>
+</tr>
+<tr>
+<td style="text-align: left;">Module 2: Known Limitations</td>
+<td style="text-align: left;">Populations where the model underperforms (elderly atypical presentations, patients with rare metabolic conditions). Known input biases (SpO2 racial bias). Scenarios where the model should be bypassed (MCI, paediatric).</td>
+<td style="text-align: left;">1 hour</td>
+</tr>
+<tr>
+<td style="text-align: left;">Module 3: Override Procedure</td>
+<td style="text-align: left;">How to override, why overriding is expected and appropriate, how override reasons are used to improve the model. Emphasis: override is a feature, not a failure.</td>
+<td style="text-align: left;">30 minutes</td>
+</tr>
+<tr>
+<td style="text-align: left;">Module 4: Automation Bias Awareness</td>
+<td style="text-align: left;">What automation bias is, how it manifests in clinical settings, documented cases of AI over-reliance in healthcare, why the delayed-reveal interface exists.</td>
+<td style="text-align: left;">30 minutes</td>
+</tr>
+</tbody>
+</table>
+<h3>Competency Assessment</h3>
+<p>All triage staff must pass a competency assessment (scenario-based, minimum score 80%) before the AI-CTDSS is enabled on their EHR profile. Staff who do not pass receive additional training and re-assessment within 14 days.</p>
+<h3>Refresher Training</h3>
+<ul>
+<li><strong>Annual refresher:</strong> 1-hour session covering any model updates, new known limitations, and automation bias reinforcement.</li>
+<li><strong>Post-update refresher:</strong> Following any significant model update (as defined in Section 8.4), a targeted briefing is delivered to all triage staff covering what changed, why, and any new error patterns to watch for.</li>
+<li><strong>Triggered refresher:</strong> If an individual nurse's over-reliance metric (Section 4.5) is flagged, a one-on-one session with the Clinical Training Manager is scheduled.</li>
+</ul>
+<h3>Training Governance</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Obligation</th>
+<th style="text-align: left;">Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Training content development</td>
+<td style="text-align: left;">Clinical Training Manager + ML Engineering (for technical accuracy)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Training delivery and scheduling</td>
+<td style="text-align: left;">Clinical Training Manager</td>
+</tr>
+<tr>
+<td style="text-align: left;">Competency assessment administration</td>
+<td style="text-align: left;">Clinical Training Manager</td>
+</tr>
+<tr>
+<td style="text-align: left;">Training completion tracking and audit</td>
+<td style="text-align: left;">Clinical Governance (Accountable: CMO)</td>
+</tr>
+</tbody>
+</table>
+<h1>Section 5: Technical Documentation Requirements</h1>
+<p><em>(Updated with Industry &amp; Regulatory Citations — OECD, Deloitte, EU AI Act Art. 11 &amp; Annex IV)</em></p>
+<hr />
+<h2>5.1 Overview</h2>
+<p>Under Article 11 and Annex IV of the EU AI Act, high-risk AI systems must be accompanied by comprehensive technical documentation. This documentation must be drawn up <strong>before the system is placed on the market or put into service</strong> and must be kept up-to-date throughout its entire lifecycle:</p>
+<blockquote>
+<p><em>"The technical documentation shall be drawn up before that system is placed on the market or put into service and shall be kept up-to-date. That documentation shall be drawn up in such a way to demonstrate that the high-risk AI system complies with the requirements set out in this Chapter and provide national competent authorities and notified bodies with all the necessary information."</em> — EU AI Act Article 11(1)</p>
+</blockquote>
+<p>From a governance perspective, the primary risk regarding technical documentation is not a failure to create it initially — it is the failure to <strong>maintain</strong> it. A system documented meticulously at deployment becomes a critical compliance and safety liability if the documentation is not updated following subsequent model retrainings.</p>
+<p>Organizations must avoid treating AI Act compliance as a separate silo. The OECD (<em>Progress in Implementing the EU Coordinated Plan on AI, Volume 2: Uptake in High-Impact Sectors</em>, 2026) specifically recommends that healthcare AI developers pursue <em>"consolidated guidance to streamline requirements across the GDPR, Medical Device Regulation and AI Act... and, where feasible, a single technical dossier"</em> — precisely the approach this section operationalises. Deloitte's advisory practice on AI-based medical devices (Deloitte Netherlands, 2025) similarly emphasises that early preparation and integration of AI Act requirements into existing MDR Quality Management Systems (QMS) is essential to avoiding costly, siloed compliance efforts. This unified documentation approach ensures regulatory coherence and prevents duplicate audits.</p>
+<p>This section translates the EU AI Act Annex IV requirements into an operational checklist with explicit ownership assigned to ensure continuous compliance.</p>
+<hr />
+<h2>5.2 EU AI Act Annex IV Documentation Checklist and Specifications</h2>
+<p>The following documentation modules are mandatory for the AI-CTDSS. Each module requires a specific owner responsible for its accuracy and lifecycle maintenance. Together, they constitute the Technical File that would be submitted to a Notified Body for MDR conformity assessment.</p>
+<h3>5.2.1 System Description</h3>
+<ul>
+<li><strong>Contents:</strong> Plain-language summary of the system's intended purpose, target user base, clinical context (emergency triage), and current version identifiers for both the software and model.</li>
+<li><strong>Regulatory Requirement:</strong> EU AI Act Annex IV, Section 1(a)</li>
+<li><strong>Governance Purpose:</strong> Serves as the anchor for all scope and boundary definitions.</li>
+<li><strong>Owner:</strong> Product Management / ML Team Lead</li>
+</ul>
+<h3>5.2.2 Design Specifications</h3>
+<ul>
+<li><strong>Contents:</strong> Detailed architectural diagrams, descriptions of the algorithmic methodology (e.g., gradient boosting, deep neural networks), the software stack, data ingestion pipelines, and rationale behind the chosen architecture.</li>
+<li><strong>Regulatory Requirement:</strong> EU AI Act Annex IV, Section 1(b)</li>
+<li><strong>Governance Purpose:</strong> Enables technical auditors to understand <em>how</em> the system achieves its purpose and where structural points of failure may exist.</li>
+<li><strong>Owner:</strong> ML Engineering Lead</li>
+</ul>
+<h3>5.2.3 Training Data Description</h3>
+<ul>
+<li><strong>Contents:</strong> Comprehensive metadata on datasets used to train, validate, and test the model — including data provenance, inclusion/exclusion criteria, demographic composition, labeling methodology, and documented known limitations (e.g., underrepresentation of specific ethnic groups).</li>
+<li><strong>Regulatory Requirement:</strong> EU AI Act Article 10 (Data Governance) - Annex IV, Section 2</li>
+<li><strong>Governance Purpose:</strong> Allows auditors to assess the root causes of algorithmic bias and verify that the Article 10 data governance obligations are met.</li>
+<li><strong>Owner:</strong> Data Science Lead</li>
+</ul>
+<h3>5.2.4 Validation and Testing Results</h3>
+<ul>
+<li><strong>Contents:</strong> Performance metrics (accuracy, sensitivity, specificity, AUC) across patient cohorts, characteristics of the held-out test datasets, results of adversarial testing, and algorithmic fairness/bias results (Equalized Odds parity across demographic groups).</li>
+<li><strong>Regulatory Requirement:</strong> EU AI Act Annex IV, Section 4 · Article 15 (Accuracy &amp; Robustness)</li>
+<li><strong>Governance Purpose:</strong> Provides the empirical evidence that the system operates safely before it influences clinical care.</li>
+<li><strong>Owner:</strong> Quality Assurance (QA) / Compliance</li>
+</ul>
+<h3>5.2.5 Monitoring Plan</h3>
+<ul>
+<li><strong>Contents:</strong> The strategy for observing system performance post-deployment — metrics tracked (override rates, under-triage rates), frequency of review, and escalation thresholds.</li>
+<li><strong>Regulatory Requirement:</strong> EU AI Act Article 72 (Post-Market Monitoring) · MDR Post-Market Surveillance requirements</li>
+<li><strong>Governance Purpose:</strong> Satisfies the Post-Market Monitoring (PMM) requirements of both the EU AI Act and the MDR simultaneously.</li>
+<li><strong>Owner:</strong> Clinical Governance</li>
+</ul>
+<h3>5.2.6 Explainability Documentation</h3>
+<ul>
+<li><strong>Contents:</strong> Technical documentation detailing how outputs are rendered interpretable to the end-user — specifically, the methodology used to extract and display key driving factors (e.g., SHAP values) alongside the triage score.</li>
+<li><strong>Regulatory Requirement:</strong> EU AI Act Articles 13 (Transparency) &amp; 14 (Human Oversight)</li>
+<li><strong>Governance Purpose:</strong> Proves compliance with transparency and human oversight requirements.</li>
+<li><strong>Owner:</strong> ML Engineering + UX Design</li>
+</ul>
+<h3>5.2.7 Cybersecurity Measures</h3>
+<ul>
+<li><strong>Contents:</strong> The security architecture protecting the system against adversarial attacks, data breaches, and unauthorized access — focusing particularly on EHR integration endpoints.</li>
+<li><strong>Regulatory Requirement:</strong> EU AI Act Article 15(5) (Robustness &amp; Cybersecurity) · GDPR Article 32 (Security of Processing)</li>
+<li><strong>Governance Purpose:</strong> Fulfills both GDPR and AI Act robustness obligations.</li>
+<li><strong>Owner:</strong> IT Security / CISO</li>
+</ul>
+<h3>5.2.8 Instructions for Use (IFU)</h3>
+<ul>
+<li><strong>Contents:</strong> The clinical user manual — how nurses should interact with the AI-CTDSS, when to trust it, when to override, known clinical limitations, and how to report erratic behavior.</li>
+<li><strong>Regulatory Requirement:</strong> EU AI Act Article 13(3)(d) · MDR Annex I, Section 23 (Labelling and IFU)</li>
+<li><strong>Governance Purpose:</strong> Ensures that the Human Oversight design detailed in <strong>Section 4 of this framework</strong> is practically executable by end-users.</li>
+<li><strong>Owner:</strong> Clinical Training / Medical Affairs</li>
+</ul>
+<hr />
+<h2>5.3 Documentation Lifecycle and Version Control</h2>
+<p>To mitigate the risk of stale documentation, the AI-CTDSS governance framework mandates a strict <strong>Code-to-Documentation linkage</strong>.</p>
+<p>Any update to the production model weights, underlying algorithm, or clinical user interface must trigger a mandatory review of the Technical Documentation. The Regulatory Affairs Manager holds <em>accountability</em> for ensuring that deployment of a new system version is <strong>blocked</strong> until the corresponding documentation modules (specifically 5.2.1, 5.2.3, and 5.2.4) have been signed off by their respective owners.</p>
+<p>This gate is not bureaucratic friction — it is the mechanism that prevents an updated, undocumented model from invalidating the prior Notified Body conformity assessment.</p>
+<hr />
+<p><em>Sources: EU Artificial Intelligence Act 2024/1689, Articles 10, 11, 13, 14, 15, 72, Annex IV; EU Medical Device Regulation 2017/745, Annex I Section 23; OECD (2026), Progress in Implementing the EU Coordinated Plan on AI (Volume 2): Uptake in High-Impact Sectors, https://doi.org/10.1787/3ac96d41-en; Deloitte Netherlands (2025), Ensuring compliance for AI-based medical devices, https://www.deloitte.com/nl/en/services/financial-advisory/services/ensuring-compliance-for-ai-based-medical-devices.html.</em></p>
+<h1>Section 6: Audit Trail and Logging</h1>
+<p><em>(Updated with Regulatory Citations — EU AI Act Art. 12 &amp; EU MDR 2017/745)</em></p>
+<hr />
+<h2>6.1 Overview</h2>
+<p>Logging is not merely an IT administrative function; it is <strong>foundational legal infrastructure</strong>. If a patient experiences harm and the deploying hospital faces litigation, or if a national competent authority conducts a post-market surveillance audit, the system logs serve as the definitive, irrefutable evidence of the AI system's operation.</p>
+<p>The EU AI Act places this obligation directly and unambiguously on high-risk systems:</p>
+<blockquote>
+<p><em>"High-risk AI systems shall technically allow for the automatic recording of events (logs) over the lifetime of the system... [and] in order to ensure a level of traceability of the functioning of a high-risk AI system that is appropriate to the intended purpose of the system, logging capabilities shall enable the recording of events..."</em> — <strong>EU AI Act Article 12(1) &amp; (2)</strong></p>
+</blockquote>
+<p>In parallel, the EU Medical Device Regulation (MDR 2017/745) requires that the technical documentation for a Class IIa device include records sufficient to reconstruct the history of the device's operation for post-market surveillance and adverse event investigation (MDR Annex II, Section 6).</p>
+<p>This section defines the logging specification, retention strategy, and access control model for the AI-CTDSS in compliance with both frameworks.</p>
+<h2>6.2 Logging Specification</h2>
+<p>To ensure robust traceability, the AI-CTDSS logs must capture the state of the system, the inputs it received, the output it generated, and the human response to that output.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Log Event</th>
+<th style="text-align: left;">What is Recorded</th>
+<th style="text-align: left;">Retention Period</th>
+<th style="text-align: left;">Access Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>System Query</strong></td>
+<td style="text-align: left;">Patient ID (pseudonymized), snapshot of input data (vitals, symptoms), timestamp</td>
+<td style="text-align: left;">10 years (MDR + Clinical Records)</td>
+<td style="text-align: left;">Clinical Governance, Compliance</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>AI Output</strong></td>
+<td style="text-align: left;">Recommended triage score (1–5), confidence interval, top 3 key drivers, <strong>model version identifier</strong></td>
+<td style="text-align: left;">10 years (MDR + Clinical Records)</td>
+<td style="text-align: left;">Clinical Governance, Compliance</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Clinician Action</strong></td>
+<td style="text-align: left;">Final triage score assigned by nurse, decision status (Accept / Adjust / Override), clinician ID, timestamp</td>
+<td style="text-align: left;">10 years (MDR + Clinical Records)</td>
+<td style="text-align: left;">Clinical Governance, Audit</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Override Reason</strong></td>
+<td style="text-align: left;">Category selected from dropdown (e.g., "Clinical presentation contradicts data")</td>
+<td style="text-align: left;">10 years (MDR + Clinical Records)</td>
+<td style="text-align: left;">Quality Team, Research (Aggregated)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>System Errors</strong></td>
+<td style="text-align: left;">Error type (e.g., API timeout, invalid input format), input that caused the error, system state at time of failure</td>
+<td style="text-align: left;">6 months (AI Act minimum)</td>
+<td style="text-align: left;">IT, ML Engineering</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Model Version Changes</strong></td>
+<td style="text-align: left;">Deployment timestamp, version number, cryptographic hash of the model file, summary of changes</td>
+<td style="text-align: left;">Permanent</td>
+<td style="text-align: left;">Compliance, Regulatory Affairs</td>
+</tr>
+</tbody>
+</table>
+<div class="alert-box alert-note"><div class="alert-header">ℹ️ NOTE</div><div class="alert-body">Logging the <strong>model version identifier</strong> alongside every AI output is the most critical technical element of this specification. It enables investigators to determine precisely which model version was responsible for any given output — a requirement for both root cause analysis and legal defensibility.</div></div>
+
+<h2>6.3 The Retention Tension: Harmonizing Competing Timelines</h2>
+<p>Designing the retention periods for AI system logs requires navigating conflicting regulatory timelines across three frameworks:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Framework</th>
+<th style="text-align: left;">Obligation</th>
+<th style="text-align: left;">Minimum Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">EU AI Act (Article 19)</td>
+<td style="text-align: left;">Logging for post-hoc monitoring of system functioning</td>
+<td style="text-align: left;">Minimum 6 months</td>
+</tr>
+<tr>
+<td style="text-align: left;">MDR (Annex II, §6 — Post-Market Surveillance)</td>
+<td style="text-align: left;">Records to support safety and performance tracking across device lifetime</td>
+<td style="text-align: left;">Minimum 10 years</td>
+</tr>
+<tr>
+<td style="text-align: left;">National Clinical Records Law</td>
+<td style="text-align: left;">Medical records from patient care episodes</td>
+<td style="text-align: left;">10 years (standard in most EU Member States)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Resolution:</strong>
+The governance framework resolves this by tying retention to the <strong>nature</strong> of the data, not just its source system:</p>
+<ol>
+<li><strong>Clinical/Decision Logs</strong> (System Query, AI Output, Clinician Action, Override Reason): These form part of the patient's clinical narrative and are classified as clinical records. Retained for the maximum mandatory period of <strong>10 years</strong>.</li>
+<li><strong>Purely Technical Logs</strong> (System Errors, Latency Telemetry): These do not directly inform patient care. Retained for the AI Act minimum of <strong>6 months</strong>, stripping direct identifiers at 6 months to minimize data footprint consistent with GDPR data minimisation (Article 5(1)(c)).</li>
+</ol>
+<h2>6.4 The Importance of Model Version Logging</h2>
+<p>The <strong>model version identifier</strong> recorded alongside every AI Output is the single most critical technical element in the logging specification.</p>
+<p><strong>Why it matters — a concrete scenario:</strong></p>
+<p>Imagine a cluster of under-triaged cardiac patients is detected over a three-week period. The Clinical Governance Team needs to determine:
+- Was this caused by the previous model version or the newly deployed version?
+- Did the error emerge before or after the retraining cycle?
+- Was it limited to one shift, one clinician, or systematic across the system?</p>
+<p>Without a per-inference model version tag in the logs, none of these questions are answerable. Root cause analysis collapses. Legal defensibility collapses. Regulatory notification (required under MDR Article 87 for serious incidents) cannot be completed with the required specificity.</p>
+<p>Logging the model version per-inference transforms the audit trail from a passive activity log into an <strong>active diagnostic and legal instrument</strong>.</p>
+<h2>6.5 Access Control Governance</h2>
+<p>Log data contains a highly sensitive mixture of protected health information (PHI) and proprietary technical telemetry. Access is strictly governed by the <strong>principle of least privilege</strong>, a foundational principle of both GDPR (data minimisation under GDPR Article 5(1)(c) and security under GDPR Article 5(1)(f)) and good information security practice:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Role</th>
+<th style="text-align: left;">Access Permitted</th>
+<th style="text-align: left;">Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Clinical Governance / Audit</strong></td>
+<td style="text-align: left;">Full access to clinical decision logs (System Query, AI Output, Clinician Action)</td>
+<td style="text-align: left;">Required to investigate adverse events and monitor clinical safety performance</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ML Engineering Team</strong></td>
+<td style="text-align: left;">Access restricted to anonymized/aggregated logs and System Error logs only</td>
+<td style="text-align: left;">Required for debugging and model retraining; must NOT access identifiable patient or clinician IDs</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DPO / Compliance</strong></td>
+<td style="text-align: left;">Access to audit logs (who accessed what, and when)</td>
+<td style="text-align: left;">Required to verify GDPR compliance and prevent unauthorized data access</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Research Team</strong></td>
+<td style="text-align: left;">Access to fully anonymized, aggregated override data only</td>
+<td style="text-align: left;">For publication-grade model improvement research; no individual patient linkage permitted</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Sources: EU Artificial Intelligence Act 2024/1689, Article 12; EU Medical Device Regulation 2017/745, Annex II Section 6, Article 87; General Data Protection Regulation 2016/679, Articles 5(1)(c) and 5(1)(f).</em></p>
+<h1>Section 7: Transparency and User Information</h1>
+<p><em>(Updated with Regulatory Citations — EU AI Act Art. 13 &amp; GDPR Art. 13/14/22)</em></p>
+<hr />
+<h2>7.1 Overview</h2>
+<p>Transparency in AI governance is not a public relations exercise; it is a mechanism to <strong>enable legal rights and ensure clinical safety</strong>. Two parallel regulatory frameworks impose transparency obligations on the AI-CTDSS:</p>
+<ol>
+<li>
+<p><strong>EU AI Act, Article 13 — Transparency and Provision of Information:</strong></p>
+<blockquote>
+<p><em>"High-risk AI systems shall be designed and developed in such a way to ensure that their operation is sufficiently transparent to enable deployers to interpret the system's output and use it appropriately. An appropriate type and degree of transparency shall be ensured, with a view to achieving compliance with the relevant obligations of the provider and deployer set out in Chapter."</em> — EU AI Act Article 13(1)</p>
+</blockquote>
+</li>
+<li>
+<p><strong>GDPR Articles 13 and 14 — Information to Data Subjects:</strong>
+   Where personal data is processed (as it is for every AI-CTDSS query), controllers must proactively inform data subjects about the processing — including, critically, the existence of any automated decision-making that significantly affects them.</p>
+</li>
+</ol>
+<p>For the AI-CTDSS, "transparency" must be tailored to <strong>three distinct audiences</strong>: the hospital deploying the system, the clinicians using it, and the patients affected by it. This section outlines the three core transparency artefacts required for deployment and their respective regulatory grounding.</p>
+<h2>7.2 The System Card (For the Deploying Hospital — AI Act Art. 13(3))</h2>
+<p>The System Card satisfies the EU AI Act Article 13(3) requirement that providers supply operators (the deploying hospital) with documentation that enables them to understand "the intended purpose, the level of accuracy, robustness and cybersecurity against which the high-risk AI system has been tested... and any known or foreseeable circumstances... that may lead to risks to health and safety or fundamental rights."</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">System Card Element</th>
+<th style="text-align: left;">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Intended Purpose</strong></td>
+<td style="text-align: left;">Triage priority scoring (Categories 1–5) based on adult (16+) ED intake data</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Out of Scope</strong></td>
+<td style="text-align: left;">Not for pediatric use; not a diagnostic tool; not for discharge or admission decisions</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Performance Metrics</strong></td>
+<td style="text-align: left;">Overall agreement with expert clinical consensus: 92%; Sensitivity for Cat. 1 &amp; 2 (High Acuity): 96%; Specificity for Cat. 4 &amp; 5 (Low Acuity): 89%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Known Limitations</strong></td>
+<td style="text-align: left;">Performance degrades by ~7% on patients over 80 with atypical MI presentations; highly sensitive to missing SpO2 data</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Training Data Provenance</strong></td>
+<td style="text-align: left;">Trained on 1.2 million anonymized ED intake records from three tertiary care centers in Northern Europe (2020–2025)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Support &amp; Escalation</strong></td>
+<td style="text-align: left;">Technical anomalies: [Support Contact]; Clinical safety concerns: Clinical Governance Board</td>
+</tr>
+</tbody>
+</table>
+<div class="alert-box alert-note"><div class="alert-header">ℹ️ NOTE</div><div class="alert-body">Under EU AI Act Article 13(3)(b), providers must also disclose "the human oversight measures referred to in Article 14, including the technical measures put in place to facilitate the interpretation of the outputs of AI systems by the deployers." This is addressed in full in <strong>Section 4 of this framework</strong>.</div></div>
+
+<h2>7.3 The Clinical User Summary (For Triage Nurses — AI Act Art. 13(1))</h2>
+<p>This document is integrated into the mandatory training programme (Section 4.6). It translates technical limitations into operational clinical guidance, satisfying the EU AI Act's requirement that transparency enable operators to "interpret the system's output and use it appropriately."</p>
+<p><strong>How it works:</strong>
+The AI analyzes vitals and symptoms to recommend a triage category. The AI does <em>not</em> see the patient; you do. Your clinical judgment always takes precedence.</p>
+<p><strong>When to trust it:</strong>
+The AI is highly accurate for standard presentations of trauma, respiratory distress, and sepsis.</p>
+<p><strong>When to be cautious — Known Error Patterns:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Scenario</th>
+<th style="text-align: left;">Why the AI May Fail</th>
+<th style="text-align: left;">Your Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Patient "looks sick" but vitals are currently stable</td>
+<td style="text-align: left;">The AI scores on objective data; it cannot see distress, diaphoresis, or pallor</td>
+<td style="text-align: left;">Trust your clinical eyes over the algorithm; override</td>
+</tr>
+<tr>
+<td style="text-align: left;">Patient over 80 with chest discomfort</td>
+<td style="text-align: left;">Atypical MI presentations are a known model limitation; the model may under-score</td>
+<td style="text-align: left;">Increase manual scrutiny; do not defer to a low AI score</td>
+</tr>
+<tr>
+<td style="text-align: left;">Patient with complex rare metabolic condition</td>
+<td style="text-align: left;">The AI has limited context for conditions under-represented in training data</td>
+<td style="text-align: left;">Bypass AI guidance; apply clinical judgment independently</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The Override Expectation:</strong>
+You are expected and required to override the AI score if your clinical judgment disagrees. The AI is a recommendation; you hold final authority. Selecting an override reason from the dropdown takes less than 2 seconds and directly helps the team improve the model for future patients.</p>
+<h2>7.4 Patient Information Notice (GDPR Art. 13/14 &amp; Art. 22)</h2>
+<p>Patients have a legal right to know that algorithmic support is being utilized in their care path. GDPR Articles 13 and 14 require controllers to inform data subjects at the time of data collection about the existence of any "automated decision-making, including profiling... meaningful information about the logic involved, as well as the significance and the envisaged consequences of such processing."</p>
+<p>Furthermore, GDPR Article 22 grants patients the right to request human intervention and to contest automated decisions. This notice ensures that right is actionable:</p>
+<blockquote>
+<hr />
+<p><strong>Notice of Automated Triage Support</strong></p>
+<p>To ensure you receive the fastest and safest care possible, this emergency department uses a Clinical Decision Support System (an Artificial Intelligence tool).</p>
+<p><strong>How it is used:</strong> The system securely analyzes the vital signs and symptoms you report at intake to recommend an initial urgency score.</p>
+<p><strong>Your rights and safety:</strong> The AI does <strong>not</strong> make the final decision about your care. A qualified triage nurse reviews all AI recommendations and makes the final decision on your triage priority. You have the right to ask the triage nurse to explain the reasoning behind your triage score, or to request that no AI recommendation be used. For more information on how your data is processed, please ask the registration desk for our full Privacy Policy.</p>
+<h2><em>This notice satisfies GDPR Articles 13 and 14 and the right to human intervention under GDPR Article 22.</em></h2>
+</blockquote>
+<h2>7.5 Transparency Governance: Keeping Artefacts Current</h2>
+<p>Transparency artefacts are not static documents. They must be treated as living governance records:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Artefact</th>
+<th style="text-align: left;">Review Trigger</th>
+<th style="text-align: left;">Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">System Card</td>
+<td style="text-align: left;">Any significant model update; annually</td>
+<td style="text-align: left;">Regulatory Affairs / DPO</td>
+</tr>
+<tr>
+<td style="text-align: left;">Clinical User Summary</td>
+<td style="text-align: left;">Any model update changing known limitations; annually</td>
+<td style="text-align: left;">Clinical Training Manager</td>
+</tr>
+<tr>
+<td style="text-align: left;">Patient Notice</td>
+<td style="text-align: left;">Any change to data processing scope or legal basis</td>
+<td style="text-align: left;">DPO</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Sources: EU Artificial Intelligence Act 2024/1689, Articles 13(1) and 13(3); General Data Protection Regulation 2016/679, Articles 13, 14, and 22.</em></p>
+<h1>Section 8: Incident Response and Post-Market Monitoring</h1>
+<p><em>(Updated with Industry &amp; Regulatory Citations — McKinsey, EU AI Act Art. 72, MDR Art. 87)</em></p>
+<hr />
+<h2>8.1 Overview</h2>
+<p>A fundamental axiom of AI governance is that deployment is not the end of the compliance lifecycle — it is merely the beginning of the monitoring phase. The real-world performance of an AI model will inevitably drift from its test-environment performance as patient populations shift, clinical protocols change, and the underlying data ages.</p>
+<p>Two regulatory frameworks impose parallel post-deployment obligations on the AI-CTDSS:</p>
+<blockquote>
+<p><em>"Providers of high-risk AI systems shall establish and document a post-market monitoring system... The post-market monitoring system shall actively and systematically collect, document and analyse relevant data provided by deployers or collected through other sources on the performance of high-risk AI systems throughout their lifetime."</em> — EU AI Act Article 72(1)</p>
+<p><em>"Notwithstanding paragraph 3, in the event of death or an unanticipated serious deterioration in a person’s state of health the report shall be provided immediately... but not later than 10 days after the date on which the manufacturer becomes aware of the serious incident."</em> — MDR Article 87(5)</p>
+</blockquote>
+<p>The AI-CTDSS unifies these requirements into a single, cohesive incident response and monitoring architecture. McKinsey &amp; Company (<em>The European Union AI Act: Time to start preparing</em>, November 2024) argues that organizations must treat AI Act compliance not as a one-time certification milestone but as <strong>a continuous, systematic governance programme</strong> — a principle that is especially acute in post-market monitoring, where regulatory obligations do not end at deployment. This framework operationalises that principle by enforcing an uncompromising 10-day window for serious incidents involving death or severe deterioration, aligning with both frameworks simultaneously.</p>
+<hr />
+<h2>8.2 Part A: Incident Classification and Response</h2>
+<p>In clinical AI, not all errors are "incidents," and not all incidents trigger regulatory reporting. The framework classifies anomalous AI behavior into three tiers to ensure proportionate response:</p>
+<h3>Level 1: Near Miss (Operational Anomaly)</h3>
+<ul>
+<li><strong>Definition:</strong> The AI-CTDSS generated a significantly incorrect triage score, but the human oversight mechanism (the triage nurse) caught the error and prevented clinical harm.</li>
+<li><strong>Action:</strong> Logged automatically via the override documentation protocol (<strong>Section 4 of this framework</strong>). No immediate escalation required.</li>
+<li><strong>Review:</strong> Aggregated and reviewed weekly by the Clinical Governance team to detect systemic patterns.</li>
+<li><strong>Regulatory Basis:</strong> EU AI Act Article 72 — continuous PMM data collection.</li>
+</ul>
+<h3>Level 2: Adverse Event (Clinical Impact)</h3>
+<ul>
+<li><strong>Definition:</strong> The AI-CTDSS generated an incorrect score and the clinician accepted it, contributing to a delayed or incorrect clinical pathway resulting in moderate but reversible harm.</li>
+<li><strong>Action:</strong> Triggers an immediate clinical incident report within the hospital's risk management system.</li>
+<li><strong>Review:</strong> Must be investigated jointly by Clinical Governance and ML Engineering within <strong>24 hours</strong> to determine whether the model must be temporarily suspended.</li>
+<li><strong>Regulatory Basis:</strong> EU AI Act Article 72 (Post-Market Monitoring). Does not meet the threshold for external reporting under Article 73.</li>
+</ul>
+<h3>Level 3: Serious Incident (Regulatory Escalation)</h3>
+<ul>
+<li><strong>Definition:</strong> Patient death or severe, irreversible deterioration directly attributable to an AI system failure (e.g., catastrophic under-triage of an aortic dissection).</li>
+<li><strong>Action:</strong> Mandatory external regulatory reporting. AI-CTDSS must be immediately suspended hospital-wide pending root cause analysis.</li>
+<li><strong>Regulatory Basis:</strong> MDR Article 87(5) — report to national competent authority (BfArM in Germany) within <strong>10 days</strong> of becoming aware. Simultaneously report under EU AI Act Article 73.</li>
+</ul>
+<div class="alert-box alert-caution"><div class="alert-header">🛑 CAUTION</div><div class="alert-body">Failure to report a serious incident within the 10-day MDR window is itself a regulatory violation, independent of the underlying AI failure. The Regulatory Affairs Manager must be notified of any Level 3 event immediately upon detection.</div></div>
+
+<hr />
+<h2>8.3 Part B: Post-Market Monitoring Metrics</h2>
+<p>To prevent Level 2 and Level 3 incidents through proactive detection, the Clinical Governance team monitors the following key metrics:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">Target</th>
+<th style="text-align: left;">Alert Threshold</th>
+<th style="text-align: left;">Review Cadence</th>
+<th style="text-align: left;">Regulatory Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Overall Triage Agreement</strong></td>
+<td style="text-align: left;">&gt;90%</td>
+<td style="text-align: left;">&lt;85%</td>
+<td style="text-align: left;">Weekly</td>
+<td style="text-align: left;">EU AI Act Art. 72 (PMM)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Under-Triage Rate</strong></td>
+<td style="text-align: left;">&lt;2%</td>
+<td style="text-align: left;">&gt;3%</td>
+<td style="text-align: left;"><strong>Daily</strong></td>
+<td style="text-align: left;">MDR Art. 83 (PMS) · AI Act Art. 72 — <em>most critical safety metric</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Override Rate</strong></td>
+<td style="text-align: left;">10%–20%</td>
+<td style="text-align: left;">&gt;35% sustained</td>
+<td style="text-align: left;">Weekly</td>
+<td style="text-align: left;">EU AI Act Art. 14 (Human Oversight integrity)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Demographic Parity (Equalized Odds)</strong></td>
+<td style="text-align: left;">±5%</td>
+<td style="text-align: left;">&gt;10% variance</td>
+<td style="text-align: left;">Monthly</td>
+<td style="text-align: left;">EU AI Act Art. 10 (Data Governance &amp; Fairness)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>System Availability</strong></td>
+<td style="text-align: left;">&gt;99.5%</td>
+<td style="text-align: left;">&lt;99.0%</td>
+<td style="text-align: left;">Real-time</td>
+<td style="text-align: left;">EU AI Act Art. 15 (Robustness &amp; Reliability)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Why the under-triage rate is reviewed daily:</strong> A systematic failure to identify critically ill patients is the highest-stakes failure mode of the AI-CTDSS. If the model is quietly generating under-triage errors overnight, the Clinical Governance team must detect this within 24 hours — not weekly. This cadence satisfies the MDR's requirement for timely adverse event detection and the AI Act's mandate for active, systematic PMM.</p>
+</blockquote>
+<hr />
+<h2>8.4 Part C: Model Update Governance (Change Management)</h2>
+<p>When post-market monitoring indicates the model must be retrained — to fix an emerging bias, address a new disease pattern, or adapt to demographic drift — the updated model cannot simply be pushed to production. An uncontrolled model update would invalidate the system's prior MDR conformity assessment and potentially constitute a "significant change" requiring re-notification to the Notified Body.</p>
+<p>Any update to AI-CTDSS model weights or feature architecture requires the following controlled sequence:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Step</th>
+<th style="text-align: left;">Action</th>
+<th style="text-align: left;">Owner</th>
+<th style="text-align: left;">Regulatory Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;"><strong>Impact Assessment</strong> — Define what changed and why (Substantial Modification test)</td>
+<td style="text-align: left;">ML Engineering</td>
+<td style="text-align: left;">EU AI Act Art. 43(4)</td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;"><strong>Performance Validation</strong> — Regression test against held-out benchmark set</td>
+<td style="text-align: left;">QA / Data Science</td>
+<td style="text-align: left;">EU AI Act Art. 15</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;"><strong>Clinical Governance Sign-Off</strong> — CMO or delegate formally approves for clinical use</td>
+<td style="text-align: left;">CMO</td>
+<td style="text-align: left;">MDR Art. 83 (PMS Plan)</td>
+</tr>
+<tr>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;"><strong>Documentation Update</strong> — Technical documentation updated with new model version identifier</td>
+<td style="text-align: left;">Regulatory Affairs</td>
+<td style="text-align: left;">EU AI Act Annex IV</td>
+</tr>
+<tr>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;"><strong>User Notification</strong> — Triage staff briefed on changes and any new error patterns</td>
+<td style="text-align: left;">Clinical Training Manager</td>
+<td style="text-align: left;">EU AI Act Art. 13 &amp; 14(4)(c)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Sources: EU Artificial Intelligence Act 2024/1689, Articles 72, 73, Articles 10, 14, 15, Annex IV; EU Medical Device Regulation 2017/745, Articles 83, 87; McKinsey &amp; Company (2024), The European Union AI Act: Time to start preparing, McKinsey.com.</em></p>
+<h1>Section 9: Governance Ownership Map</h1>
+<p><em>(Updated with Industry &amp; Regulatory Citations — Deloitte, EU AI Act, GDPR, MDR)</em></p>
+<hr />
+<h2>9.1 Overview</h2>
+<p>Compliance focuses on identifying which regulations apply to a system. <strong>Governance</strong> focuses on designing the organizational structures that ensure those regulations are met consistently over time. The most robust AI governance framework is useless if no one in the organization is explicitly accountable for executing its requirements.</p>
+<p>The most common failure mode in AI governance is the diffusion of responsibility — a situation where everyone assumes someone else is handling a task, resulting in critical compliance gaps that surface only during external audits or adverse events.</p>
+<p>This section transforms the AI-CTDSS governance framework from a theoretical document into an <strong>operational management tool</strong> by explicitly mapping every regulatory obligation to a specific organizational role.</p>
+<p>Deloitte's advisory practice on AI-based medical devices (Deloitte Netherlands, 2025) emphasises that embedding AI compliance directly into existing MDR Quality Management Systems (QMS) — rather than creating siloed, disconnected AI boards — is essential for practical, long-term regulatory readiness. Integrating AI governance into the hospital's existing clinical governance structure ensures practical, long-term, auditable accountability.</p>
+<hr />
+<h2>9.2 The Governance Philosophy: RACI Matrix</h2>
+<p>The ownership structure uses the RACI (Responsible, Accountable, Consulted, Informed) framework, standard in enterprise risk management:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">RACI Role</th>
+<th style="text-align: left;">Definition</th>
+<th style="text-align: left;">Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Responsible (R)</strong></td>
+<td style="text-align: left;">The person or role doing the work</td>
+<td style="text-align: left;">Multiple R roles can exist per obligation</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Accountable (A)</strong></td>
+<td style="text-align: left;">The person who ultimately signs off and takes consequence for failure</td>
+<td style="text-align: left;"><strong>Only one A per obligation</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Consulted (C)</strong></td>
+<td style="text-align: left;">Subject matter experts whose input is required before finalization</td>
+<td style="text-align: left;">Must be consulted, not merely informed</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Informed (I)</strong></td>
+<td style="text-align: left;">Stakeholders kept up to date but without veto authority</td>
+<td style="text-align: left;">Notified after decisions are made</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why separating R and A matters in healthcare AI:</strong>
+Technical teams build systems, but clinical teams bear the risk. By separating responsibility from accountability, the framework prevents single points of failure. For example, while the ML Engineering Lead is <em>responsible</em> for creating technical documentation, the Regulatory Affairs Manager is <em>accountable</em> for ensuring it is maintained and up to date before any deployment gate.</p>
+<p><strong>Board-level accountability:</strong>
+AI systems that affect patient safety are board-level governance matters, not IT projects. The EU AI Act Article 9(1) explicitly requires that the risk management system be part of "an overall risk management system" established at the organizational level. Therefore, the CEO or Board of Directors is listed as Accountable or Informed for high-stakes obligations.</p>
+<hr />
+<h2>9.3 The AI-CTDSS Ownership Table</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Governance Obligation</th>
+<th style="text-align: left;">Regulatory Source</th>
+<th style="text-align: left;">Responsible (R)</th>
+<th style="text-align: left;">Accountable (A)</th>
+<th style="text-align: left;">Consulted (C)</th>
+<th style="text-align: left;">Informed (I)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Technical Documentation — Creation</strong></td>
+<td style="text-align: left;">EU AI Act Art. 11 · Annex IV</td>
+<td style="text-align: left;">ML Engineering Lead</td>
+<td style="text-align: left;">CTO</td>
+<td style="text-align: left;">Regulatory Affairs</td>
+<td style="text-align: left;">Clinical Governance</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Technical Documentation — Maintenance</strong></td>
+<td style="text-align: left;">EU AI Act Art. 11 · Annex IV</td>
+<td style="text-align: left;">Regulatory Affairs Manager</td>
+<td style="text-align: left;">CTO</td>
+<td style="text-align: left;">ML Engineering</td>
+<td style="text-align: left;">Compliance</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Risk Management System</strong></td>
+<td style="text-align: left;">EU AI Act Art. 9</td>
+<td style="text-align: left;">Regulatory Affairs</td>
+<td style="text-align: left;">CTO</td>
+<td style="text-align: left;">Clinical Governance, Legal</td>
+<td style="text-align: left;">Board</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Protection Impact Assessment (DPIA) — Initial</strong></td>
+<td style="text-align: left;">GDPR Art. 35</td>
+<td style="text-align: left;">DPO</td>
+<td style="text-align: left;">CEO</td>
+<td style="text-align: left;">Legal, Clinical Governance</td>
+<td style="text-align: left;">Board of Directors</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DPIA — Annual Review</strong></td>
+<td style="text-align: left;">GDPR Art. 35</td>
+<td style="text-align: left;">DPO</td>
+<td style="text-align: left;">CEO</td>
+<td style="text-align: left;">Legal, Clinical Governance</td>
+<td style="text-align: left;">Board of Directors</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Conformity Assessment (Notified Body)</strong></td>
+<td style="text-align: left;">EU AI Act Art. 43 · MDR Art. 52</td>
+<td style="text-align: left;">Regulatory Affairs</td>
+<td style="text-align: left;">CEO / Board</td>
+<td style="text-align: left;">Notified Body</td>
+<td style="text-align: left;">All Stakeholders</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Human Oversight Training</strong></td>
+<td style="text-align: left;">EU AI Act Art. 26(2)</td>
+<td style="text-align: left;">Clinical Training Manager</td>
+<td style="text-align: left;">CMO</td>
+<td style="text-align: left;">Nursing Leadership</td>
+<td style="text-align: left;">Triage Staff</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Incident Reporting (Level 3 — Serious)</strong></td>
+<td style="text-align: left;">MDR Art. 87(5) · EU AI Act Art. 73</td>
+<td style="text-align: left;">Regulatory Affairs</td>
+<td style="text-align: left;">CMO</td>
+<td style="text-align: left;">Legal</td>
+<td style="text-align: left;">Board of Directors</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Post-Market Monitoring Execution</strong></td>
+<td style="text-align: left;">EU AI Act Art. 72 · MDR Art. 83 (PMS)</td>
+<td style="text-align: left;">Clinical Governance</td>
+<td style="text-align: left;">CMO</td>
+<td style="text-align: left;">ML Team, QA</td>
+<td style="text-align: left;">Board of Directors</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Log Access Governance</strong></td>
+<td style="text-align: left;">GDPR Art. 5(1)(c) &amp; (f) · EU AI Act Art. 12</td>
+<td style="text-align: left;">DPO</td>
+<td style="text-align: left;">CTO</td>
+<td style="text-align: left;">Compliance, Legal</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Model Update Approval</strong></td>
+<td style="text-align: left;">EU AI Act Art. 43(4) · MDR Art. 83</td>
+<td style="text-align: left;">Regulatory Affairs</td>
+<td style="text-align: left;">CTO &amp; CMO (Joint)</td>
+<td style="text-align: left;">Clinical Governance</td>
+<td style="text-align: left;">Clinical End-Users</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Algorithmic Bias Monitoring</strong></td>
+<td style="text-align: left;">EU AI Act Art. 10</td>
+<td style="text-align: left;">Data Science Lead</td>
+<td style="text-align: left;">CMO</td>
+<td style="text-align: left;">Clinical Governance</td>
+<td style="text-align: left;">DPO</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>9.4 Conclusion</h2>
+<p>By embedding this ownership map into the hospital's core operations, the AI-CTDSS framework ensures that compliance is not a static snapshot taken prior to deployment, but a <strong>continuous, auditable, and actively managed lifecycle</strong>.</p>
+<p>Each row of the ownership table above corresponds to a regulatory obligation that a Notified Body or national competent authority could request evidence of during an audit. The RACI structure ensures that evidence exists, and that a named individual is accountable for producing it.</p>
+<hr />
+<p><em>Sources: EU Artificial Intelligence Act 2024/1689, Articles 9, 10, 11, 12, 14, 43, 72, 73, Annex IV; EU Medical Device Regulation 2017/745, Articles 52, 83, 87; GDPR 2016/679, Articles 5(1)(f), 35; Deloitte Netherlands (2025), Ensuring compliance for AI-based medical devices, https://www.deloitte.com/nl/en/services/financial-advisory/services/ensuring-compliance-for-ai-based-medical-devices.html.</em></p>
+<h1>Section 10: Limitations and Future Implementation Roadmap</h1>
+<p><em>(Updated with Regulatory Context — EU AI Act Compliance Timeline)</em></p>
+<hr />
+<h2>10.1 Scope of This Section</h2>
+<p>This governance framework was developed as a simulated exercise to demonstrate the operational translation of the EU AI Act (2024/1689), GDPR (2016/679), and the EU MDR (2017/745) within a high-risk clinical AI context. As a simulated portfolio asset, it carries inherent limitations that would need to be resolved prior to actual organizational deployment. This section documents those limitations with full transparency, and provides a forward-looking implementation roadmap aligned with the EU AI Act's compliance timeline.</p>
+<hr />
+<h2>10.2 Current Framework Limitations</h2>
+<h3>Limitation 1: Absence of Empirical Bias Data</h3>
+<p>The Algorithmic Fairness Assessment (Section 3.7) correctly identifies known clinical biases (e.g., SpO2 racial bias, atypical MI presentation in elderly patients) and establishes Equalized Odds as the monitoring metric. However, without access to actual training datasets and historical performance logs of a real AI-CTDSS, a quantitative bias audit cannot be conducted. The baseline demographic variance figures, the exact feature weighting of SpO2, and the actual false negative rates by age, sex, and ethnicity are simulated, not empirically derived.</p>
+<h3>Limitation 2: Clinical Workflow Validation</h3>
+<p>The Human Oversight Design (Section 4) proposes a specific UI workflow (the delayed-reveal mechanism to prevent anchoring) and a sub-2-second override dropdown. While theoretically sound for mitigating automation bias, these UI choices have not been tested in a simulated emergency department environment. Actual deployment would require:
+- <strong>Human factors testing</strong> with practicing triage nurses under realistic ED time pressure.
+- <strong>UX validation</strong> to ensure the delayed-reveal does not introduce dangerous latency.
+- <strong>Pilot deployment</strong> in a controlled unit before full rollout.</p>
+<h3>Limitation 3: No Notified Body Engagement</h3>
+<p>As a Class IIa Medical Device under the MDR, the AI-CTDSS requires a formal conformity assessment by a third-party <strong>Notified Body</strong> before it can lawfully carry the CE Mark and be placed on the EU market. This framework acts as the preparatory technical documentation for that audit — but it cannot simulate the interactive feedback, specific evidential demands, or final certification decision of a real Notified Body. The gaps identified in a real Notified Body audit would likely require iterative documentation updates across all sections.</p>
+<h3>Limitation 4: Local Jurisdictional Variances</h3>
+<p>While the framework relies on pan-European regulations (GDPR, AI Act, MDR), healthcare delivery is regulated at the national level. A real-world deployment would require localization for:
+- Specific national clinical record retention laws (e.g., § 10 MBO-Ä in Germany vs. equivalent French laws).
+- Local data governance requirements of the deploying hospital's national health system.
+- National AI supervisory authority interpretations, which are still being established across EU Member States as of 2025.</p>
+<hr />
+<h2>10.3 EU AI Act Compliance Roadmap</h2>
+<p>The EU AI Act entered into force on <strong>1 August 2024</strong>. The Act's obligations apply on a phased timeline. A real-world deploying organization would need to align against the following schedule:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Deadline</th>
+<th style="text-align: left;">Obligation</th>
+<th style="text-align: left;">Relevant Framework Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>2 February 2025</strong></td>
+<td style="text-align: left;">Prohibition of unacceptable risk AI (Art. 5) enters application</td>
+<td style="text-align: left;">N/A — CDSS is High-Risk, not prohibited</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2 August 2025</strong></td>
+<td style="text-align: left;">AI literacy obligations (Art. 4) and GPAI model provisions enter application</td>
+<td style="text-align: left;">Section 4.6 — Training Programme</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>December 2027</strong></td>
+<td style="text-align: left;"><strong>Annex III high-risk AI obligations enter application</strong> — General high-risk systems (e.g., HR, biometrics). The AI-CTDSS falls under Point 5a (emergency healthcare triage)</td>
+<td style="text-align: left;">Applies independently</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>August 2028</strong></td>
+<td style="text-align: left;"><strong>Annex I high-risk AI obligations enter application</strong> — This is the primary compliance deadline for the AI-CTDSS (as an MDR medical device) (per Digital Omnibus Reg. 2026/1744)</td>
+<td style="text-align: left;">All Sections (1-9)</td>
+</tr>
+</tbody>
+</table>
+<div class="alert-box alert-important"><div class="alert-header">⚠️ IMPORTANT</div><div class="alert-body">The <strong>December 2027 deadline</strong> is the critical milestone for this framework, as the independent Annex III classification binds earlier than the MDR Annex I pathway. An organization beginning deployment planning today (mid-2026) has approximately 18 months to achieve full compliance with Articles 9–15 of the EU AI Act. This is achievable but requires <strong>immediate initiation</strong> of technical documentation, DPIA completion, and Notified Body engagement.</div></div>
+
+<hr />
+<h2>10.4 Next Steps for Real-World Implementation</h2>
+<p>If this framework were to transition from a portfolio exercise to a live project, the following sequential steps would be required:</p>
+<ol>
+<li><strong>Procure and Analyze Real Training Data:</strong> Conduct a quantitative bias audit against real-world ED triage datasets to establish empirical fairness baselines.</li>
+<li><strong>Commission a DPIA:</strong> Engage the DPO to complete the full mandatory DPIA (Section 3.6) with real organizational data flows.</li>
+<li><strong>Engage a Notified Body:</strong> Initiate Notified Body selection and pre-submission meeting to understand specific evidential requirements for MDR Class IIa conformity assessment.</li>
+<li><strong>Conduct Human Factors Testing:</strong> Partner with clinical simulation centers to validate the UI workflow under realistic ED conditions.</li>
+<li><strong>Register in EUDAMED:</strong> Complete manufacturer and device registration in the European Database for Medical Devices.</li>
+<li><strong>Establish Post-Market Surveillance Infrastructure:</strong> Deploy the technical logging infrastructure specified in Section 6 and establish the governance cadence for the Clinical Governance Team (Section 8).</li>
+</ol>
+<hr />
+<p><em>Sources: EU Artificial Intelligence Act 2024/1689, Articles 4, 5, 6, 9-15; EU Medical Device Regulation 2017/745, Annex II; Phased compliance timeline per EU AI Act Chapter X.</em></p>
+</body>
+</html>
