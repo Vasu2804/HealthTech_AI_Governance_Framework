@@ -191,8 +191,8 @@ This framework demonstrates the operational translation of the EU AI Act, GDPR, 
 <h3>1. Dual-Purpose Human Oversight</h3>
 <p><em>Addresses: GDPR Article 22 · EU AI Act Article 14</em></p>
 <p>The framework designs human oversight as the core decision architecture, not a compliance checkbox. The AI-CTDSS operates strictly as a recommendation engine. The triage nurse must input an initial clinical impression before the AI score is revealed (preventing automation bias anchoring), and retains final, unlockable authority over the triage category.</p>
-<p>This single design mechanism satisfies two independent legal obligations simultaneously:
-- <strong>GDPR Article 22:</strong> Ensures the triage decision is never "based solely on automated processing," protecting patients' right not to be subject to purely automated decisions.
+<p>This single design mechanism satisfies two independent legal obligations simultaneously:<br>
+- <strong>GDPR Article 22:</strong> Ensures the triage decision is never "based solely on automated processing," protecting patients' right not to be subject to purely automated decisions.<br>
 - <strong>EU AI Act Article 14:</strong> Enforces "effective human oversight by natural persons" for high-risk AI systems, including the ability to understand outputs, identify risks, and intervene or override.</p>
 <h3>2. Code-to-Documentation Linkage and Ownership</h3>
 <p><em>Addresses: EU AI Act Article 11 · Annex IV (Technical Documentation)</em></p>
@@ -209,10 +209,10 @@ This framework demonstrates the operational translation of the EU AI Act, GDPR, 
 <h2>1.2 System Description</h2>
 <p>The <strong>AI Clinical Triage Decision Support System (AI-CTDSS)</strong> is a machine learning-based clinical decision support tool designed for deployment at hospital emergency department (ED) intake. Its primary function is to analyze acute patient presentations and recommend an initial triage priority score to the attending triage clinician.</p>
 <p><strong>Data Ingestion Pipeline:</strong>
-At the point of registration and initial assessment, the AI-CTDSS ingests four primary categories of patient intake data:
-1. <strong>Presenting Symptoms:</strong> Chief complaints as recorded by the intake nurse or self-reported by the patient (natural language processed or structured inputs).
-2. <strong>Measured Vitals:</strong> Objective physiological measurements including Blood Pressure (BP), Heart Rate (HR), Peripheral Oxygen Saturation (SpO2), Respiratory Rate, and Temperature.
-3. <strong>Medical History:</strong> Relevant, self-reported historical medical data (e.g., known chronic conditions, current primary medications).
+At the point of registration and initial assessment, the AI-CTDSS ingests four primary categories of patient intake data: <br>
+1. <strong>Presenting Symptoms:</strong> Chief complaints as recorded by the intake nurse or self-reported by the patient (natural language processed or structured inputs). <br>
+2. <strong>Measured Vitals:</strong> Objective physiological measurements including Blood Pressure (BP), Heart Rate (HR), Peripheral Oxygen Saturation (SpO2), Respiratory Rate, and Temperature. <br>
+3. <strong>Medical History:</strong> Relevant, self-reported historical medical data (e.g., known chronic conditions, current primary medications). <br>
 4. <strong>Demographic Data:</strong> Age and biological sex, which are critical variables for certain acute clinical risk scores.</p>
 <p><strong>Output Generation:</strong>
 Based on this multi-modal ingestion, the AI-CTDSS processes the data through its predictive algorithms to produce a <strong>triage priority score ranging from 1 to 5</strong>, strictly aligned with the established Manchester Triage System (MTS) categories. This algorithmic output is presented to the attending triage nurse via the Electronic Health Record (EHR) interface as a clinical <em>recommendation</em>, accompanied by a confidence interval and the key variables driving the recommendation.</p>
@@ -259,21 +259,21 @@ graph TD
     class M,N log
 </div></div>
 <p><strong>Strategic Highlights of this Architecture:</strong>
-- <strong>The Minimisation Filter (GDPR Art. 5):</strong> The AI never touches the patient's entire medical record, stripping out irrelevant data before inference to reduce statistical noise and privacy liability.
-- <strong>The Delayed Reveal UI (GDPR Art. 22 &amp; AI Act Art. 14):</strong> The AI score is physically blocked from the nurse's view until they commit their own clinical impression. This breaks the "automation bias" feedback loop.
+- <strong>The Minimisation Filter (GDPR Art. 5):</strong> The AI never touches the patient's entire medical record, stripping out irrelevant data before inference to reduce statistical noise and privacy liability. <br>
+- <strong>The Delayed Reveal UI (GDPR Art. 22 &amp; AI Act Art. 14):</strong> The AI score is physically blocked from the nurse's view until they commit their own clinical impression. This breaks the "automation bias" feedback loop. <br>
 - <strong>Bifurcated Logging (AI Act Art. 12 &amp; MDR):</strong> Clinical records are kept for 10 years (patient safety), but raw AI telemetry is purged after 6 months to minimize data exposure.</p>
 <h2>1.3 Intended Purpose and Intended Users</h2>
 <h3>Intended Purpose</h3>
 <p>The explicit intended purpose of the AI-CTDSS is to <strong>inform and assist</strong> the triage category assignment process in high-volume, time-sensitive emergency care environments. By synthesizing disparate data points rapidly, it aims to reduce cognitive load on clinicians, minimize human error in under-triage scenarios (where a critical patient is incorrectly assessed as non-urgent), and standardize triage acuity scoring across different shifts and personnel.</p>
 <h3>Intended Users</h3>
-<p>The AI-CTDSS is exclusively designed for use by qualified healthcare professionals. The primary intended users are:
-- <strong>Triage Nurses:</strong> The primary operators who conduct the initial patient assessment and make the final triage categorization.
+<p>The AI-CTDSS is exclusively designed for use by qualified healthcare professionals. The primary intended users are: <br>
+- <strong>Triage Nurses:</strong> The primary operators who conduct the initial patient assessment and make the final triage categorization. <br>
 - <strong>Emergency Physicians:</strong> Secondary users who may reference the AI-CTDSS score during subsequent clinical evaluation or patient flow management.</p>
 <h3>Explicit Non-Purposes (What the System Does NOT Do)</h3>
-<p>To prevent off-label usage and contain legal liability, it must be explicitly stated what the system is not authorized to do:
-- <strong>It does NOT diagnose:</strong> The system evaluates acuity and urgency; it does not identify underlying pathology or disease states.
-- <strong>It does NOT prescribe:</strong> It offers no therapeutic or pharmacological recommendations.
-- <strong>It does NOT dictate admission or discharge:</strong> Final patient disposition remains entirely outside the system's operational purview.
+<p>To prevent off-label usage and contain legal liability, it must be explicitly stated what the system is not authorized to do: <br>
+- <strong>It does NOT diagnose:</strong> The system evaluates acuity and urgency; it does not identify underlying pathology or disease states. <br>
+- <strong>It does NOT prescribe:</strong> It offers no therapeutic or pharmacological recommendations. <br>
+- <strong>It does NOT dictate admission or discharge:</strong> Final patient disposition remains entirely outside the system's operational purview. <br>
 - <strong>It does NOT automate decisions:</strong> The system is explicitly designed as a "decision support" tool. It cannot autonomously assign a triage score without human review and confirmation.</p>
 <h2>1.4 System Boundaries</h2>
 <p>Defining the boundaries of the AI-CTDSS is a critical governance exercise. The following elements are explicitly <strong>out of scope</strong> for the current system architecture and subsequent compliance obligations:</p>
@@ -293,10 +293,10 @@ Under Annex VIII, Rule 11 of the EU MDR, software intended to provide informatio
 <p><em>"Software intended to provide information which is used to take decisions with diagnosis or therapeutic purposes is classified as class IIa, except if such decisions have an impact that may cause:... serious deterioration of a person's state of health or a surgical intervention, in which case it is in class IIb..."</em> — MDR Annex VIII, Rule 11</p>
 </blockquote>
 <p>Because the AI-CTDSS influences triage assignment in emergency situations where an under-triage error could lead to serious deterioration of health (e.g., a patient in early septic shock triaged as non-urgent), it is classified as a <strong>Class IIa</strong> medical device. This classification triggers the requirement for a conformity assessment by a <strong>Notified Body</strong> and affixing the <strong>CE Mark</strong> before market placement.</p>
-<p><strong>Key MDR Obligations This Classification Triggers:</strong>
-- Maintenance of a <strong>Technical File</strong> (equivalent to the Technical Documentation defined in this framework).
-- A <strong>Post-Market Surveillance (PMS) system</strong> for the lifetime of the device (see Section 8).
-- Registration in the <strong>EUDAMED</strong> database.
+<p><strong>Key MDR Obligations This Classification Triggers:</strong> <br>
+- Maintenance of a <strong>Technical File</strong> (equivalent to the Technical Documentation defined in this framework). <br>
+- A <strong>Post-Market Surveillance (PMS) system</strong> for the lifetime of the device (see Section 8). <br>
+- Registration in the <strong>EUDAMED</strong> database. <br>
 - Clinical Evaluation and continued performance assessment.</p>
 <h3>1.5.2 Artificial Intelligence Classification (EU AI Act 2024/1689)</h3>
 <p>The EU AI Act (Regulation 2024/1689, in force from August 2024) establishes the first comprehensive legal framework for artificial intelligence in the world. Under this regulation, the AI-CTDSS is unambiguously classified as a <strong>High-Risk AI System</strong>.</p>
@@ -345,9 +345,9 @@ Annex III, Point 5(a) captures AI systems "intended to be used by or on behalf o
 </tbody>
 </table>
 <h3>1.5.3 Regulatory Jurisdiction</h3>
-<p>For the purposes of this governance framework, we assume initial deployment within the European Union (Germany). Therefore, the system falls under the jurisdiction of:
-- <strong>BfArM</strong> (Federal Institute for Drugs and Medical Devices) — MDR oversight.
-- <strong>BfDI</strong> (Federal Commissioner for Data Protection and Freedom of Information) — GDPR oversight.
+<p>For the purposes of this governance framework, we assume initial deployment within the European Union (Germany). Therefore, the system falls under the jurisdiction of: <br>
+- <strong>BfArM</strong> (Federal Institute for Drugs and Medical Devices) — MDR oversight. <br>
+- <strong>BfDI</strong> (Federal Commissioner for Data Protection and Freedom of Information) — GDPR oversight. <br>
 - The designated national AI supervisory authority — EU AI Act oversight.</p>
 <hr />
 <p><em>Sources: EU Medical Device Regulation 2017/745, Annex VIII, Rule 11; EU Artificial Intelligence Act 2024/1689, Articles 6, 9-15, Annex I, Annex III.</em></p>
@@ -1457,15 +1457,15 @@ AI systems that affect patient safety are board-level governance matters, not IT
 <h3>Limitation 1: Absence of Empirical Bias Data</h3>
 <p>The Algorithmic Fairness Assessment (Section 3.7) correctly identifies known clinical biases (e.g., SpO2 racial bias, atypical MI presentation in elderly patients) and establishes Equalized Odds as the monitoring metric. However, without access to actual training datasets and historical performance logs of a real AI-CTDSS, a quantitative bias audit cannot be conducted. The baseline demographic variance figures, the exact feature weighting of SpO2, and the actual false negative rates by age, sex, and ethnicity are simulated, not empirically derived.</p>
 <h3>Limitation 2: Clinical Workflow Validation</h3>
-<p>The Human Oversight Design (Section 4) proposes a specific UI workflow (the delayed-reveal mechanism to prevent anchoring) and a sub-2-second override dropdown. While theoretically sound for mitigating automation bias, these UI choices have not been tested in a simulated emergency department environment. Actual deployment would require:
-- <strong>Human factors testing</strong> with practicing triage nurses under realistic ED time pressure.
-- <strong>UX validation</strong> to ensure the delayed-reveal does not introduce dangerous latency.
+<p>The Human Oversight Design (Section 4) proposes a specific UI workflow (the delayed-reveal mechanism to prevent anchoring) and a sub-2-second override dropdown. While theoretically sound for mitigating automation bias, these UI choices have not been tested in a simulated emergency department environment. Actual deployment would require: <br>
+- <strong>Human factors testing</strong> with practicing triage nurses under realistic ED time pressure. <br>
+- <strong>UX validation</strong> to ensure the delayed-reveal does not introduce dangerous latency. <br>
 - <strong>Pilot deployment</strong> in a controlled unit before full rollout.</p>
 <h3>Limitation 3: No Notified Body Engagement</h3>
 <p>As a Class IIa Medical Device under the MDR, the AI-CTDSS requires a formal conformity assessment by a third-party <strong>Notified Body</strong> before it can lawfully carry the CE Mark and be placed on the EU market. This framework acts as the preparatory technical documentation for that audit — but it cannot simulate the interactive feedback, specific evidential demands, or final certification decision of a real Notified Body. The gaps identified in a real Notified Body audit would likely require iterative documentation updates across all sections.</p>
 <h3>Limitation 4: Local Jurisdictional Variances</h3>
 <p>While the framework relies on pan-European regulations (GDPR, AI Act, MDR), healthcare delivery is regulated at the national level. A real-world deployment would require localization for:
-- Specific national clinical record retention laws (e.g., § 10 MBO-Ä in Germany vs. equivalent French laws).
+- Specific national clinical record retention laws (e.g., Section 10 MBO-Ä in Germany vs. equivalent French laws).
 - Local data governance requirements of the deploying hospital's national health system.
 - National AI supervisory authority interpretations, which are still being established across EU Member States as of 2025.</p>
 <hr />
