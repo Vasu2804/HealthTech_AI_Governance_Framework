@@ -79,7 +79,7 @@ Full EU AI Act enforcement for AI systems classified as medical devices: **Augus
 
 ## Limitations
 
-This is a speculative project built by an MBA student, not a practising regulatory lawyer or clinical engineer. It is based on primary sources — the regulations themselves, EU Commission guidance, and Notified Body standards — but should not be treated as legal advice or used as an actual regulatory submission.
+This is a speculative project built by an MBA student, not a practising regulatory lawyer or clinical engineer. It is based on primary sources i.e. the regulations themselves, EU Commission guidance, and Notified Body standards — but should not be treated as legal advice or used as an actual regulatory submission.
 
 ---
 
