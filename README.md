@@ -89,4 +89,4 @@ MBA student interested in AI governance, healthcare regulation, and the intersec
 
 Currently exploring roles in HealthTech AI governance, regulatory strategy, and GRC.
 
-[LinkedIn](www.linkedin.com/in/vasu-sharma0011)
+[LinkedIn](https://www.linkedin.com/in/vasu-sharma0011)
